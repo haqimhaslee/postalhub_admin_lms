@@ -5,7 +5,6 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:barcode_scan2/barcode_scan2.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class CheckInParcel extends StatefulWidget {
@@ -48,7 +47,7 @@ class _CheckInParcelState extends State<CheckInParcel> {
     String remarks_ = remarks.text;
     String imageUrl;
 
-    imageUrl = await uploadImage(file!);
+    imageUrl = await uploadImage();
 
     DateTime currentTime = DateTime.now();
 
@@ -107,50 +106,43 @@ class _CheckInParcelState extends State<CheckInParcel> {
     }
   }
 
-  Future<String> uploadImage(File imageFile) async {
+  Future<String> uploadImage() async {
     String fileName = DateTime.now().millisecondsSinceEpoch.toString();
     Reference reference = storage.ref().child('parcel_images/$fileName');
-    UploadTask uploadTask = reference.putFile(imageFile);
+    UploadTask uploadTask;
+
+    if (kIsWeb && webFile != null) {
+      // Handle web image upload
+      Uint8List imageData = await webFile!.readAsBytes();
+      uploadTask = reference.putData(imageData);
+    } else if (file != null) {
+      // Handle mobile image upload
+      uploadTask = reference.putFile(file!);
+    } else {
+      throw Exception("No image selected for upload.");
+    }
+
     TaskSnapshot snapshot = await uploadTask.whenComplete(() => null);
     String imageUrl = await snapshot.ref.getDownloadURL();
     return imageUrl;
   }
 
   Future<void> getImage() async {
-    if (!kIsWeb) {
-      // Check if not running on web
-      var status = await Permission.camera.status;
-      if (status.isDenied) {
-        // Request camera permission if denied
-        status = await Permission.camera.request();
-        if (status.isDenied) {
-          // Handle permission denied (e.g., show a message)
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Camera permission is required.'),
-              duration: Duration(seconds: 2),
-            ),
-          );
-          return; // Exit if permission is still denied
-        }
-      }
-    }
-
     try {
-      final pickedFile =
-          await imagePicker.pickImage(source: ImageSource.camera);
+      final pickedFile = await imagePicker.pickImage(
+        source: ImageSource.gallery, // Use gallery for web and mobile
+      );
+
       if (pickedFile != null) {
         setState(() {
           if (kIsWeb) {
             webFile = pickedFile;
-            webImagePath = pickedFile.path;
           } else {
             file = File(pickedFile.path);
           }
         });
       }
     } catch (e) {
-      // Handle any errors that might occur during image capture
       print("Error capturing image: $e");
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -210,53 +202,40 @@ class _CheckInParcelState extends State<CheckInParcel> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+      padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
       child: ListView(
         children: [
-          Container(
-            decoration: BoxDecoration(
-                border: Border.all(
-                  color: Theme.of(context).colorScheme.secondary,
-                ),
-                borderRadius: const BorderRadius.all(Radius.circular(10))),
-            child: webImagePath == null && file == null
-                ? MaterialButton(
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 40,
-                          width: MediaQuery.of(context).size.width * 0.6,
+          GestureDetector(
+            // Use GestureDetector for better tap handling on web
+            onTap: getImage,
+            child: Container(
+              decoration: BoxDecoration(
+                border:
+                    Border.all(color: Theme.of(context).colorScheme.secondary),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: AspectRatio(
+                // Maintain aspect ratio for the image area
+                aspectRatio: 16 / 9, // Or adjust as needed
+                child: file == null && webFile == null && webImagePath == null
+                    ? Center(
+                        // Center the icon and text
+                        child: Column(
+                          mainAxisSize: MainAxisSize
+                              .min, // Prevent column from taking full height
+                          children: const [
+                            Icon(Icons.camera, size: 40),
+                            Text("Camera/Gallery* (Required)"),
+                          ],
                         ),
-                        const Icon(
-                          Icons.camera,
-                          size: 40,
-                        ),
-                        const Text("Camera* (Required)"),
-                        const SizedBox(
-                          height: 40,
-                        ),
-                      ],
-                    ),
-                    onPressed: () {
-                      getImage();
-                    },
-                  )
-                : MaterialButton(
-                    child: kIsWeb
-                        ? Image.network(
-                            webImagePath!,
-                            height: 300,
-                            fit: BoxFit.fill,
-                          )
-                        : Image.file(
-                            height: 300,
-                            file!,
-                            fit: BoxFit.fill,
-                          ),
-                    onPressed: () {
-                      getImage();
-                    },
-                  ),
+                      )
+                    : kIsWeb
+                        ? Image.network(webImagePath ?? '',
+                            fit: BoxFit.cover) // Show web image if available
+                        : Image.file(file!,
+                            fit: BoxFit.cover), // Show mobile image
+              ),
+            ),
           ),
           const SizedBox(
             height: 10,
