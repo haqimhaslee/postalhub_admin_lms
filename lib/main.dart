@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart'; //
 import 'package:firebase_core/firebase_core.dart';
-import 'package:postalhub_admin_cms/login_services/login_page.dart';
+import 'package:postalhub_admin_cms/login_services/auth_services.dart';
 import 'firebase_options.dart';
 import 'package:postalhub_admin_cms/src/postalhub_ui.dart';
 import 'package:dynamic_color/dynamic_color.dart';
@@ -22,15 +22,15 @@ class MyApp extends StatelessWidget {
       return MaterialApp(
           theme: ThemeData(
             colorScheme: lightDynamic ?? lightColorScheme,
-            //  fontFamily: 'GoogleSans',
+            fontFamily: 'GoogleSans',
           ),
           darkTheme: ThemeData(
             colorScheme: darkDynamic ?? darkColorScheme,
-            // fontFamily: 'GoogleSans',
+            fontFamily: 'GoogleSans',
           ),
           themeMode: ThemeMode.system,
           debugShowCheckedModeBanner: false,
-          home: const LoginPage());
+          home: const AuthPage());
     });
   }
 }

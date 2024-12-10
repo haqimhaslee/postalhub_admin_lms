@@ -1,0 +1,189 @@
+Date : 2024-12-08 06:17:45
+Directory : c:\Users\haqim\Project\Flutter\postalhub_admin_cms
+Total : 88 files,  6950 codes, 351 comments, 666 blanks, all 7967 lines
+
+Languages
++-----------------+------------+------------+------------+------------+------------+
+| language        | files      | code       | comment    | blank      | total      |
++-----------------+------------+------------+------------+------------+------------+
+| Dart            |         32 |      4,832 |        116 |        305 |      5,253 |
+| C++             |         16 |        575 |        127 |        188 |        890 |
+| XML             |         11 |        479 |         53 |         12 |        544 |
+| CMake           |          7 |        465 |          0 |         89 |        554 |
+| JSON            |          6 |        338 |          0 |          5 |        343 |
+| Gradle          |          3 |         96 |          8 |         18 |        122 |
+| Swift           |          6 |         74 |          7 |         20 |        101 |
+| YAML            |          2 |         51 |         25 |         13 |         89 |
+| HTML            |          1 |         19 |         15 |          5 |         39 |
+| Markdown        |          2 |         13 |          0 |          9 |         22 |
+| Java Properties |          2 |          8 |          0 |          2 |         10 |
++-----------------+------------+------------+------------+------------+------------+
+
+Directories
++-----------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                                  | files      | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                     |         88 |      6,950 |        351 |        666 |      7,967 |
+| . (Files)                                                                                                             |          4 |        102 |         25 |         21 |        148 |
+| android                                                                                                               |         14 |        228 |         59 |         29 |        316 |
+| android (Files)                                                                                                       |          3 |         41 |          2 |          9 |         52 |
+| android\app                                                                                                           |         10 |        182 |         57 |         19 |        258 |
+| android\app (Files)                                                                                                   |          2 |        107 |          6 |         10 |        123 |
+| android\app\src                                                                                                       |          8 |         75 |         51 |          9 |        135 |
+| android\app\src\debug                                                                                                 |          1 |          3 |          4 |          1 |          8 |
+| android\app\src\main                                                                                                  |          6 |         66 |         43 |          7 |        116 |
+| android\app\src\main (Files)                                                                                          |          1 |         34 |         11 |          1 |         46 |
+| android\app\src\main\res                                                                                              |          5 |         32 |         32 |          6 |         70 |
+| android\app\src\main\res\drawable                                                                                     |          1 |          4 |          7 |          2 |         13 |
+| android\app\src\main\res\drawable-v21                                                                                 |          1 |          4 |          7 |          2 |         13 |
+| android\app\src\main\res\mipmap-anydpi-v26                                                                            |          1 |          6 |          0 |          0 |          6 |
+| android\app\src\main\res\values                                                                                       |          1 |          9 |          9 |          1 |         19 |
+| android\app\src\main\res\values-night                                                                                 |          1 |          9 |          9 |          1 |         19 |
+| android\app\src\profile                                                                                               |          1 |          6 |          4 |          1 |         11 |
+| android\gradle                                                                                                        |          1 |          5 |          0 |          1 |          6 |
+| android\gradle\wrapper                                                                                                |          1 |          5 |          0 |          1 |          6 |
+| ios                                                                                                                   |          8 |        229 |          4 |         13 |        246 |
+| ios\Runner                                                                                                            |          7 |        222 |          2 |          9 |        233 |
+| ios\Runner (Files)                                                                                                    |          2 |         13 |          0 |          3 |         16 |
+| ios\RunnerTests                                                                                                       |          1 |          7 |          2 |          4 |         13 |
+| ios\Runner\Assets.xcassets                                                                                            |          3 |        148 |          0 |          4 |        152 |
+| ios\Runner\Assets.xcassets\AppIcon.appiconset                                                                         |          1 |        122 |          0 |          1 |        123 |
+| ios\Runner\Assets.xcassets\LaunchImage.imageset                                                                       |          2 |         26 |          0 |          3 |         29 |
+| ios\Runner\Base.lproj                                                                                                 |          2 |         61 |          2 |          2 |         65 |
+| lib                                                                                                                   |         31 |      4,818 |        106 |        298 |      5,222 |
+| lib (Files)                                                                                                           |          2 |         93 |         14 |          9 |        116 |
+| lib\login_services                                                                                                    |          2 |        199 |          4 |         17 |        220 |
+| lib\pages                                                                                                             |         24 |      4,229 |         85 |        258 |      4,572 |
+| lib\pages\cms_settings                                                                                                |          9 |      1,167 |         22 |         59 |      1,248 |
+| lib\pages\cms_settings (Files)                                                                                        |          1 |        112 |          4 |          8 |        124 |
+| lib\pages\cms_settings\cms_settings_widget                                                                            |          5 |        557 |          5 |         20 |        582 |
+| lib\pages\cms_settings\management                                                                                     |          3 |        498 |         13 |         31 |        542 |
+| lib\pages\home                                                                                                        |          6 |        632 |         16 |         46 |        694 |
+| lib\pages\home (Files)                                                                                                |          1 |        182 |          4 |          5 |        191 |
+| lib\pages\home\analytics                                                                                              |          2 |        186 |          5 |         15 |        206 |
+| lib\pages\home\carousel_services                                                                                      |          3 |        264 |          7 |         26 |        297 |
+| lib\pages\loyalty_prog                                                                                                |          1 |        120 |          6 |         11 |        137 |
+| lib\pages\notification_tester                                                                                         |          1 |         74 |          7 |         14 |         95 |
+| lib\pages\out_for_delivery                                                                                            |          1 |         38 |          2 |          5 |         45 |
+| lib\pages\parcel_inventory                                                                                            |          2 |        631 |         11 |         38 |        680 |
+| lib\pages\parcel_management                                                                                           |          2 |        717 |         14 |         45 |        776 |
+| lib\pages\parcel_management\check_in_parcel                                                                           |          1 |        360 |         12 |         20 |        392 |
+| lib\pages\parcel_management\check_out_parcel                                                                          |          1 |        357 |          2 |         25 |        384 |
+| lib\pages\search_inventory                                                                                            |          1 |        630 |          5 |         19 |        654 |
+| lib\pages\search_user                                                                                                 |          1 |        220 |          2 |         21 |        243 |
+| lib\src                                                                                                               |          3 |        297 |          3 |         14 |        314 |
+| lib\src (Files)                                                                                                       |          2 |        116 |          3 |          6 |        125 |
+| lib\src\navigator                                                                                                     |          1 |        181 |          0 |          8 |        189 |
+| linux                                                                                                                 |          8 |        332 |         33 |         88 |        453 |
+| linux (Files)                                                                                                         |          4 |        212 |         24 |         61 |        297 |
+| linux\flutter                                                                                                         |          4 |        120 |          9 |         27 |        156 |
+| macos                                                                                                                 |          6 |        466 |          5 |         16 |        487 |
+| macos\Flutter                                                                                                         |          1 |         28 |          3 |          4 |         35 |
+| macos\Runner                                                                                                          |          4 |        431 |          0 |          8 |        439 |
+| macos\Runner (Files)                                                                                                  |          2 |         20 |          0 |          6 |         26 |
+| macos\RunnerTests                                                                                                     |          1 |          7 |          2 |          4 |         13 |
+| macos\Runner\Assets.xcassets                                                                                          |          1 |         68 |          0 |          1 |         69 |
+| macos\Runner\Assets.xcassets\AppIcon.appiconset                                                                       |          1 |         68 |          0 |          1 |         69 |
+| macos\Runner\Base.lproj                                                                                               |          1 |        343 |          0 |          1 |        344 |
+| test                                                                                                                  |          1 |         14 |         10 |          7 |         31 |
+| web                                                                                                                   |          2 |         54 |         15 |          6 |         75 |
+| windows                                                                                                               |         14 |        707 |         94 |        188 |        989 |
+| windows (Files)                                                                                                       |          1 |         89 |          0 |         20 |        109 |
+| windows\flutter                                                                                                       |          4 |        156 |          9 |         29 |        194 |
+| windows\runner                                                                                                        |          9 |        462 |         85 |        139 |        686 |
++-----------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-----------------------------------------------------------------------------------------------------------------------+-----------------+------------+------------+------------+------------+
+| filename                                                                                                              | language        | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------------------------------------------------+-----------------+------------+------------+------------+------------+
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\README.md                                                          | Markdown        |         10 |          0 |          7 |         17 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\analysis_options.yaml                                              | YAML            |          6 |         22 |          4 |         32 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\android\app\build.gradle                                           | Gradle          |         58 |          6 |         10 |         74 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\android\app\google-services.json                                   | JSON            |         49 |          0 |          0 |         49 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\android\app\src\debug\AndroidManifest.xml                          | XML             |          3 |          4 |          1 |          8 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\android\app\src\main\AndroidManifest.xml                           | XML             |         34 |         11 |          1 |         46 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\android\app\src\main\res\drawable-v21\launch_background.xml        | XML             |          4 |          7 |          2 |         13 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\android\app\src\main\res\drawable\launch_background.xml            | XML             |          4 |          7 |          2 |         13 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\android\app\src\main\res\mipmap-anydpi-v26\ic_launcher.xml         | XML             |          6 |          0 |          0 |          6 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\android\app\src\main\res\values-night\styles.xml                   | XML             |          9 |          9 |          1 |         19 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\android\app\src\main\res\values\styles.xml                         | XML             |          9 |          9 |          1 |         19 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\android\app\src\profile\AndroidManifest.xml                        | XML             |          6 |          4 |          1 |         11 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\android\build.gradle                                               | Gradle          |         16 |          0 |          3 |         19 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\android\gradle.properties                                          | Java Properties |          3 |          0 |          1 |          4 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\android\gradle\wrapper\gradle-wrapper.properties                   | Java Properties |          5 |          0 |          1 |          6 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\android\settings.gradle                                            | Gradle          |         22 |          2 |          5 |         29 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\firebase.json                                                      | JSON            |         41 |          0 |          1 |         42 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\ios\RunnerTests\RunnerTests.swift                                  | Swift           |          7 |          2 |          4 |         13 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\ios\Runner\AppDelegate.swift                                       | Swift           |         12 |          0 |          2 |         14 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\ios\Runner\Assets.xcassets\AppIcon.appiconset\Contents.json        | JSON            |        122 |          0 |          1 |        123 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\ios\Runner\Assets.xcassets\LaunchImage.imageset\Contents.json      | JSON            |         23 |          0 |          1 |         24 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\ios\Runner\Assets.xcassets\LaunchImage.imageset\README.md          | Markdown        |          3 |          0 |          2 |          5 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\ios\Runner\Base.lproj\LaunchScreen.storyboard                      | XML             |         36 |          1 |          1 |         38 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\ios\Runner\Base.lproj\Main.storyboard                              | XML             |         25 |          1 |          1 |         27 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\ios\Runner\Runner-Bridging-Header.h                                | C++             |          1 |          0 |          1 |          2 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\lib\firebase_options.dart                                          | Dart            |         62 |         12 |          5 |         79 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\lib\login_services\auth_page.dart                                  | Dart            |         24 |          0 |          3 |         27 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\lib\login_services\login_page.dart                                 | Dart            |        175 |          4 |         14 |        193 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\lib\main.dart                                                      | Dart            |         31 |          2 |          4 |         37 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\lib\pages\cms_settings\cms_settings.dart                           | Dart            |        112 |          4 |          8 |        124 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\lib\pages\cms_settings\cms_settings_widget\branch_management.dart  | Dart            |         70 |          1 |          4 |         75 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\lib\pages\cms_settings\cms_settings_widget\current_user_info.dart  | Dart            |         95 |          1 |          4 |        100 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\lib\pages\cms_settings\cms_settings_widget\help_support.dart       | Dart            |        122 |          1 |          4 |        127 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\lib\pages\cms_settings\cms_settings_widget\others.dart             | Dart            |        128 |          1 |          4 |        133 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\lib\pages\cms_settings\cms_settings_widget\system_management.dart  | Dart            |        142 |          1 |          4 |        147 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\lib\pages\cms_settings\management\admin_management.dart            | Dart            |        196 |          9 |         15 |        220 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\lib\pages\cms_settings\management\branch_management.dart           | Dart            |        283 |          4 |         13 |        300 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\lib\pages\cms_settings\management\user_management.dart             | Dart            |         19 |          0 |          3 |         22 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\lib\pages\home\analytics\analytics_parcel copy.dart                | Dart            |         68 |          1 |          5 |         74 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\lib\pages\home\analytics\analytics_parcel.dart                     | Dart            |        118 |          4 |         10 |        132 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\lib\pages\home\carousel_services\carousel.dart                     | Dart            |          0 |          0 |          1 |          1 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\lib\pages\home\carousel_services\carousel_adder.dart               | Dart            |        115 |          4 |         14 |        133 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\lib\pages\home\carousel_services\carousel_viewer.dart              | Dart            |        149 |          3 |         11 |        163 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\lib\pages\home\home.dart                                           | Dart            |        182 |          4 |          5 |        191 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\lib\pages\loyalty_prog\loyalty_prog.dart                           | Dart            |        120 |          6 |         11 |        137 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\lib\pages\notification_tester\notification_tester.dart             | Dart            |         74 |          7 |         14 |         95 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\lib\pages\out_for_delivery\out_for_delivery.dart                   | Dart            |         38 |          2 |          5 |         45 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\lib\pages\parcel_inventory\parcel_inventory.dart                   | Dart            |        255 |          3 |         26 |        284 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\lib\pages\parcel_inventory\parcel_inventory_detail.dart            | Dart            |        376 |          8 |         12 |        396 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\lib\pages\parcel_management\check_in_parcel\check_in_parcel.dart   | Dart            |        360 |         12 |         20 |        392 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\lib\pages\parcel_management\check_out_parcel\check_out_parcel.dart | Dart            |        357 |          2 |         25 |        384 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\lib\pages\search_inventory\search_inventory.dart                   | Dart            |        630 |          5 |         19 |        654 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\lib\pages\search_user\search_user.dart                             | Dart            |        220 |          2 |         21 |        243 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\lib\src\navigator\navigator_sevices.dart                           | Dart            |        181 |          0 |          8 |        189 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\lib\src\postalhub_ui.dart                                          | Dart            |         97 |          3 |          3 |        103 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\lib\src\responsive_layout.dart                                     | Dart            |         19 |          0 |          3 |         22 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\linux\CMakeLists.txt                                               | CMake           |        118 |          0 |         28 |        146 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\linux\flutter\CMakeLists.txt                                       | CMake           |         79 |          0 |         10 |         89 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\linux\flutter\generated_plugin_registrant.cc                       | C++             |         15 |          4 |          5 |         24 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\linux\flutter\generated_plugin_registrant.h                        | C++             |          5 |          5 |          6 |         16 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\linux\flutter\generated_plugins.cmake                              | CMake           |         21 |          0 |          6 |         27 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\linux\main.cc                                                      | C++             |          5 |          0 |          2 |          7 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\linux\my_application.cc                                            | C++             |         82 |         17 |         26 |        125 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\linux\my_application.h                                             | C++             |          7 |          7 |          5 |         19 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\macos\Flutter\GeneratedPluginRegistrant.swift                      | Swift           |         28 |          3 |          4 |         35 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\macos\RunnerTests\RunnerTests.swift                                | Swift           |          7 |          2 |          4 |         13 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\macos\Runner\AppDelegate.swift                                     | Swift           |          8 |          0 |          2 |         10 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\macos\Runner\Assets.xcassets\AppIcon.appiconset\Contents.json      | JSON            |         68 |          0 |          1 |         69 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\macos\Runner\Base.lproj\MainMenu.xib                               | XML             |        343 |          0 |          1 |        344 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\macos\Runner\MainFlutterWindow.swift                               | Swift           |         12 |          0 |          4 |         16 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\pubspec.yaml                                                       | YAML            |         45 |          3 |          9 |         57 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\test\widget_test.dart                                              | Dart            |         14 |         10 |          7 |         31 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\web\index.html                                                     | HTML            |         19 |         15 |          5 |         39 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\web\manifest.json                                                  | JSON            |         35 |          0 |          1 |         36 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\windows\CMakeLists.txt                                             | CMake           |         89 |          0 |         20 |        109 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\windows\flutter\CMakeLists.txt                                     | CMake           |         98 |          0 |         12 |        110 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\windows\flutter\generated_plugin_registrant.cc                     | C++             |         27 |          4 |          5 |         36 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\windows\flutter\generated_plugin_registrant.h                      | C++             |          5 |          5 |          6 |         16 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\windows\flutter\generated_plugins.cmake                            | CMake           |         26 |          0 |          6 |         32 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\windows\runner\CMakeLists.txt                                      | CMake           |         34 |          0 |          7 |         41 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\windows\runner\flutter_window.cpp                                  | C++             |         49 |          7 |         16 |         72 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\windows\runner\flutter_window.h                                    | C++             |         20 |          5 |          9 |         34 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\windows\runner\main.cpp                                            | C++             |         30 |          4 |         10 |         44 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\windows\runner\resource.h                                          | C++             |          9 |          6 |          2 |         17 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\windows\runner\utils.cpp                                           | C++             |         54 |          2 |         10 |         66 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\windows\runner\utils.h                                             | C++             |          8 |          6 |          6 |         20 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\windows\runner\win32_window.cpp                                    | C++             |        210 |         24 |         55 |        289 |
+| c:\Users\haqim\Project\Flutter\postalhub_admin_cms\windows\runner\win32_window.h                                      | C++             |         48 |         31 |         24 |        103 |
+| Total                                                                                                                 |                 |      6,950 |        351 |        666 |      7,967 |
++-----------------------------------------------------------------------------------------------------------------------+-----------------+------------+------------+------------+------------+

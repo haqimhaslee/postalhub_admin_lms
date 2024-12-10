@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:postalhub_admin_cms/src/navigator/navigator_sevices.dart';
 import 'package:postalhub_admin_cms/login_services/auth_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -15,21 +13,7 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   bool isLoading = false;
-
-  @override
-  void initState() {
-    super.initState();
-    // Check if the user is already signed in
-    FirebaseAuth.instance.authStateChanges().listen((User? user) {
-      if (user != null) {
-        // If the user is signed in, navigate to the main screen
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => NavigatorServices()),
-        );
-      }
-    });
-  }
+  bool _obscureText = true;
 
   @override
   void dispose() {
@@ -47,8 +31,8 @@ class _LoginPageState extends State<LoginPage> {
       // Check if email exists in Firestore collection
       final email = emailController.text;
       final userDoc = await FirebaseFirestore.instance
-          .collection('admin_user')
-          .where('email', isEqualTo: email)
+          .collection('adminManagement')
+          .where('campusAdminEmail', isEqualTo: email)
           .get();
 
       if (userDoc.docs.isEmpty) {
@@ -63,11 +47,6 @@ class _LoginPageState extends State<LoginPage> {
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Login Successful')),
-      );
-
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => NavigatorServices()),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -156,11 +135,20 @@ class _LoginPageState extends State<LoginPage> {
                                 const SizedBox(height: 20),
                                 TextField(
                                   controller: passwordController,
-                                  obscureText: true,
+                                  obscureText:
+                                      _obscureText, // Use the state variable here
                                   decoration: InputDecoration(
                                     suffixIcon: IconButton(
-                                      onPressed: () {},
-                                      icon: const Icon(Icons.remove_red_eye),
+                                      onPressed: () {
+                                        setState(() {
+                                          _obscureText =
+                                              !_obscureText; // Toggle the state
+                                        });
+                                      },
+                                      icon: Icon(_obscureText
+                                          ? Icons.visibility_off
+                                          : Icons
+                                              .visibility), // Change icon based on state
                                     ),
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
