@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class CheckInParcel extends StatefulWidget {
   const CheckInParcel({super.key});
@@ -32,6 +33,7 @@ class _CheckInParcelState extends State<CheckInParcel> {
 
   // ignore: unused_field
   bool _isLoading = false; // Add loading state variable
+  String? warehouse;
 
   Future<void> addToFirebase(BuildContext context) async {
     setState(() {
@@ -46,11 +48,7 @@ class _CheckInParcelState extends State<CheckInParcel> {
     String remarks_ = remarks.text;
     String imageUrl;
 
-    if (kIsWeb) {
-      imageUrl = await uploadWebImage(webFile!);
-    } else {
-      imageUrl = await uploadImage(file!);
-    }
+    imageUrl = await uploadImage(file!);
 
     DateTime currentTime = DateTime.now();
 
@@ -63,7 +61,7 @@ class _CheckInParcelState extends State<CheckInParcel> {
       'ownerId': owner_id,
       'remarks': remarks_,
       'status': 1,
-      'warehouse': 'UTP-1',
+      'warehouse': warehouse,
       'imageUrl': imageUrl,
       'timestamp_arrived_sorted': currentTime,
       'parcelCategory': parcelCategory, // Add parcel category to data
@@ -113,15 +111,6 @@ class _CheckInParcelState extends State<CheckInParcel> {
     String fileName = DateTime.now().millisecondsSinceEpoch.toString();
     Reference reference = storage.ref().child('parcel_images/$fileName');
     UploadTask uploadTask = reference.putFile(imageFile);
-    TaskSnapshot snapshot = await uploadTask.whenComplete(() => null);
-    String imageUrl = await snapshot.ref.getDownloadURL();
-    return imageUrl;
-  }
-
-  Future<String> uploadWebImage(XFile imageFile) async {
-    String fileName = DateTime.now().millisecondsSinceEpoch.toString();
-    Reference reference = storage.ref().child('parcel_images/$fileName');
-    UploadTask uploadTask = reference.putData(await imageFile.readAsBytes());
     TaskSnapshot snapshot = await uploadTask.whenComplete(() => null);
     String imageUrl = await snapshot.ref.getDownloadURL();
     return imageUrl;
@@ -177,6 +166,45 @@ class _CheckInParcelState extends State<CheckInParcel> {
     setState(() {
       controller.text = result.rawContent;
     });
+  }
+
+  Future<void> _getWarehouse() async {
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        String userEmail = user.email!;
+
+        QuerySnapshot adminSnapshot = await FirebaseFirestore.instance
+            .collection('adminManagement')
+            .where('campusAdminEmail', isEqualTo: userEmail)
+            .get();
+
+        if (adminSnapshot.docs.isNotEmpty) {
+          String campusCode = adminSnapshot.docs[0]['campusCode'];
+
+          setState(() {
+            warehouse = campusCode;
+          });
+          print('Campus code sucess');
+        } else {
+          // Handle case where no matching admin is found
+          print('No admin found with the current user\'s email.');
+          // You might want to show an error message or navigate to a different screen
+        }
+      } else {
+        // Handle case where user is not logged in
+        print('User is not logged in.');
+      }
+    } catch (e) {
+      print('Error retrieving warehouse: $e');
+      // Handle error appropriately (e.g., show an error message)
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getWarehouse(); // Fetch warehouse code when the widget initializes
   }
 
   @override

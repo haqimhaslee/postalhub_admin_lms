@@ -1,9 +1,12 @@
 // ignore_for_file: deprecated_member_use
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:postalhub_admin_cms/pages/parcel_inventory/parcel_inventory_detail.dart';
 import 'package:visibility_detector/visibility_detector.dart';
+
+final FirebaseAuth auth = FirebaseAuth.instance;
+final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 class ParcelInventory extends StatefulWidget {
   const ParcelInventory({super.key});
@@ -14,16 +17,41 @@ class ParcelInventory extends StatefulWidget {
 class _ParcelInventoryState extends State<ParcelInventory> {
   DocumentSnapshot? _lastDocument;
   bool _hasMore = true;
-  final int _limit = 15;
+  final int _limit = 10;
   List<DocumentSnapshot> _documents = [];
   late ScrollController _scrollController;
+  String? campusCode;
+
+  Future<void> _fetchCampusCode() async {
+    final user = auth.currentUser;
+    if (user != null) {
+      try {
+        final snapshot = await _firestore
+            .collection('adminManagement')
+            .where('campusAdminEmail', isEqualTo: user.email)
+            .get();
+
+        if (snapshot.docs.isNotEmpty) {
+          setState(() {
+            campusCode = snapshot.docs.first.get('campusCode') as String;
+            _fetchMoreData(); // Fetch data after campusCode is retrieved
+          });
+        }
+      } catch (e) {
+        print('Error fetching admin type: $e');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Error: ${e.toString()}")),
+        );
+      }
+    }
+  }
 
   @override
   void initState() {
     super.initState();
+    _fetchCampusCode();
     _scrollController = ScrollController();
     _scrollController.addListener(_onScroll);
-    _fetchMoreData();
   }
 
   @override
@@ -35,16 +63,20 @@ class _ParcelInventoryState extends State<ParcelInventory> {
   void _onScroll() {
     if (_scrollController.position.pixels ==
             _scrollController.position.maxScrollExtent &&
-        _hasMore) {
+        _hasMore &&
+        campusCode != null) {
+      // Check if campusCode is available
       _fetchMoreData();
     }
   }
 
   Future<void> _fetchMoreData() async {
-    if (!_hasMore) return;
+    if (!_hasMore || campusCode == null)
+      return; // Exit if no more data or campusCode is null
 
     Query query = FirebaseFirestore.instance
         .collection('parcelInventory')
+        .where('warehouse', isEqualTo: campusCode) // Filter by warehouse
         .orderBy('timestamp_arrived_sorted', descending: true)
         .limit(_limit);
 
@@ -67,27 +99,32 @@ class _ParcelInventoryState extends State<ParcelInventory> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          child: ListView.builder(
-            controller: _scrollController,
-            itemCount: _documents.length,
-            itemBuilder: (context, index) {
-              final data = _documents[index].data();
-              if (data is Map<String, dynamic>) {
-                return MyListItemWidget(
-                    data: data, docId: _documents[index].id);
-              } else {
-                return const SizedBox();
-              }
-            },
-          ),
-        )
-      ],
-    );
+    return campusCode ==
+            null // Show loading indicator while fetching campusCode
+        ? const Center(child: CircularProgressIndicator())
+        : Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: _documents.isEmpty // Show message if no parcels found
+                    ? const Center(child: Text("No parcels found."))
+                    : ListView.builder(
+                        controller: _scrollController,
+                        itemCount: _documents.length,
+                        itemBuilder: (context, index) {
+                          final data = _documents[index].data();
+                          if (data is Map<String, dynamic>) {
+                            return MyListItemWidget(
+                                data: data, docId: _documents[index].id);
+                          } else {
+                            return const SizedBox();
+                          }
+                        },
+                      ),
+              )
+            ],
+          );
   }
 }
 
@@ -126,8 +163,6 @@ class _MyListItemWidgetState extends State<MyListItemWidget> {
     final status = widget.data['status'];
     final parcelCategory = widget.data['parcelCategory'] ?? 1;
 
-    double width = MediaQuery.of(context).size.width;
-
     return VisibilityDetector(
       key: Key(widget.data['trackingId1']),
       onVisibilityChanged: (visibilityInfo) {
@@ -137,61 +172,67 @@ class _MyListItemWidgetState extends State<MyListItemWidget> {
       },
       child: Column(
         children: [
-          Card(
-            elevation: 0,
-            child: Column(
-              children: [
-                SizedBox(
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    child: Material(
-                      color: Theme.of(context).colorScheme.surfaceVariant,
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => DetailPage(
-                                  data: widget.data, docId: widget.docId),
-                            ),
-                          );
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                                child: Container(
-                                  width: width < 679 ? width - 40 : width - 360,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text('Track No 1: $trackingID1'),
-                                      Text('Remarks: $remarks'),
-                                      Row(
-                                        children: [
-                                          _buildStatusWidget(context, status),
-                                          _buildCategoryWidget(
-                                              context, parcelCategory),
-                                        ],
-                                      )
-                                    ],
-                                  ),
+          Padding(
+              padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+              child: Card(
+                elevation: 0,
+                color: Theme.of(context).colorScheme.surfaceContainerLow,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      child: ClipRRect(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
+                        child: Material(
+                          color: const Color.fromARGB(0, 96, 125, 139),
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DetailPage(
+                                      data: widget.data, docId: widget.docId),
                                 ),
-                              )
-                            ],
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                    child: Container(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text('Track No 1: $trackingID1'),
+                                          Text('Remarks: $remarks'),
+                                          Row(
+                                            children: [
+                                              _buildStatusWidget(
+                                                  context, status),
+                                              _buildCategoryWidget(
+                                                  context, parcelCategory),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          )
+                    )
+                  ],
+                ),
+              ))
         ],
       ),
     );
