@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:animations/animations.dart';
-import 'package:postalhub_admin_cms/pages/parcel_management/check_in_parcel/check_in_parcel.dart';
-import 'package:postalhub_admin_cms/pages/parcel_management/check_out_parcel/check_out_parcel.dart';
+import 'package:postalhub_admin_cms/pages/parcel_management/check_in_parcel.dart';
+import 'package:postalhub_admin_cms/pages/parcel_management/check_out_parcel.dart';
 import 'package:postalhub_admin_cms/pages/home/home.dart';
 import 'package:postalhub_admin_cms/pages/loyalty_prog/loyalty_prog.dart';
 import 'package:postalhub_admin_cms/pages/out_for_delivery/out_for_delivery.dart';
