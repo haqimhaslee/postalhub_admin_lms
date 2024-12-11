@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:animations/animations.dart';
+import 'package:postalhub_admin_cms/pages/parcel_inventory/parcel_inventory_main.dart';
 import 'package:postalhub_admin_cms/pages/parcel_management/check_in_parcel.dart';
 import 'package:postalhub_admin_cms/pages/parcel_management/check_out_parcel.dart';
 import 'package:postalhub_admin_cms/pages/home/home.dart';
 import 'package:postalhub_admin_cms/pages/loyalty_prog/loyalty_prog.dart';
 import 'package:postalhub_admin_cms/pages/out_for_delivery/out_for_delivery.dart';
-import 'package:postalhub_admin_cms/pages/parcel_inventory/parcel_inventory.dart';
 import 'package:postalhub_admin_cms/pages/cms_settings/cms_settings.dart';
 import 'package:postalhub_admin_cms/pages/search_inventory/search_inventory.dart';
 import 'package:postalhub_admin_cms/pages/search_user/search_user.dart';
@@ -22,7 +22,7 @@ class _NavigatorServicesState extends State<NavigatorServices> {
 
   final List<Widget> _widgetOptions = <Widget>[
     const Home(),
-    const ParcelInventory(),
+    const ParcelInventoryMain(),
     const SearchInventory(),
     const SearchUser(),
     const CheckInParcel(),

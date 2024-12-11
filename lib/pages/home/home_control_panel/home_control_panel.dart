@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 import 'package:flutter/material.dart';
 import 'package:postalhub_admin_cms/pages/cms_settings/management/branch/branch_info_settings.dart';
+import 'package:postalhub_admin_cms/pages/home/home_control_panel/function/carousel/carousel.dart';
 
 class HomeControlPanel extends StatefulWidget {
   const HomeControlPanel({super.key});
@@ -38,7 +39,12 @@ class HomeControlPanelState extends State<HomeControlPanel> {
                   child: Material(
                     color: Theme.of(context).colorScheme.surfaceContainerHigh,
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const CarouselViewer()));
+                      },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[

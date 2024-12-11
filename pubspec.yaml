@@ -3,7 +3,7 @@ description: "Postalhub CMS"
 
 publish_to: 'none' 
 
-version: 24.11.10+2
+version: 24.12.1102+4
 
 environment:
   sdk: '>=3.4.0 <4.0.0'
@@ -34,14 +34,14 @@ dependencies:
   permission_handler: ^11.3.1
   image_picker_web: ^4.0.0
   firebase_messaging: ^14.9.4
-  ##camera: ^0.11.0+2
-  ##image_compression_flutter: ^1.0.4
   image_network: ^2.5.6
   url_launcher: ^6.3.1
   shared_preferences: ^2.3.3
-  image_compression_flutter: ^1.0.4
+  camera: ^0.11.0+2
   
   ##flutter_image_compress: ^2.3.0
+  ##camera: ^0.11.0+2
+  ##image_compression_flutter: ^1.0.4
   
 
 dev_dependencies:

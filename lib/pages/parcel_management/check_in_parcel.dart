@@ -205,37 +205,51 @@ class _CheckInParcelState extends State<CheckInParcel> {
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
       child: ListView(
         children: [
-          GestureDetector(
-            // Use GestureDetector for better tap handling on web
-            onTap: getImage,
-            child: Container(
-              decoration: BoxDecoration(
-                border:
-                    Border.all(color: Theme.of(context).colorScheme.secondary),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: AspectRatio(
-                // Maintain aspect ratio for the image area
-                aspectRatio: 16 / 9, // Or adjust as needed
-                child: file == null && webFile == null && webImagePath == null
-                    ? Center(
-                        // Center the icon and text
-                        child: Column(
-                          mainAxisSize: MainAxisSize
-                              .min, // Prevent column from taking full height
-                          children: const [
-                            Icon(Icons.camera, size: 40),
-                            Text("Camera/Gallery* (Required)"),
-                          ],
+          Container(
+            decoration: BoxDecoration(
+                border: Border.all(
+                  color: Theme.of(context).colorScheme.secondary,
+                ),
+                borderRadius: const BorderRadius.all(Radius.circular(10))),
+            child: webFile == null && file == null
+                ? MaterialButton(
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 40,
+                          width: MediaQuery.of(context).size.width * 0.6,
                         ),
-                      )
-                    : kIsWeb
-                        ? Image.network(webImagePath ?? '',
-                            fit: BoxFit.cover) // Show web image if available
-                        : Image.file(file!,
-                            fit: BoxFit.cover), // Show mobile image
-              ),
-            ),
+                        const Icon(
+                          Icons.camera,
+                          size: 40,
+                        ),
+                        const Text("Camera* (Required)"),
+                        const SizedBox(
+                          height: 40,
+                        ),
+                      ],
+                    ),
+                    onPressed: () {
+                      getImage();
+                    },
+                  )
+                : MaterialButton(
+                    child: kIsWeb
+                        ? Image.network(
+                            webFile!
+                                .path, // Update to use the XFile's path for web
+                            height: 300,
+                            fit: BoxFit.cover,
+                          )
+                        : Image.file(
+                            file!, // Use File for mobile
+                            height: 300,
+                            fit: BoxFit.cover,
+                          ),
+                    onPressed: () {
+                      getImage();
+                    },
+                  ),
           ),
           const SizedBox(
             height: 10,
