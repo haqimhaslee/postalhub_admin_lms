@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:postalhub_admin_cms/pages/home/home_control_panel/function/carousel/carousel_adder.dart';
 import 'package:postalhub_admin_cms/pages/home/home_control_panel/function/carousel/carousel_viewer.dart';
 
 class CarouselViewer extends StatefulWidget {
@@ -38,6 +39,14 @@ class _CarouselViewerState extends State<CarouselViewer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const CarouselAdder()));
+        },
+        label: Text("Add a carousel"),
+        icon: Icon(Icons.add),
+      ),
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.surface,
         elevation: 0,

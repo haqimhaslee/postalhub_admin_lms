@@ -1,11 +1,19 @@
 // ignore_for_file: deprecated_member_use
 import 'package:flutter/material.dart';
+import 'package:postalhub_admin_cms/pages/cms_settings/cms_settings_widget/others/updates_info_at.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HelpSupportWidgets extends StatefulWidget {
   const HelpSupportWidgets({super.key});
 
   @override
   State<HelpSupportWidgets> createState() => HelpSupportWidgetsState();
+}
+
+Future<void> _launchUrl(String url) async {
+  if (!await launchUrl(Uri.parse(url))) {
+    throw Exception('Could not launch $url');
+  }
 }
 
 class HelpSupportWidgetsState extends State<HelpSupportWidgets> {
@@ -48,7 +56,8 @@ class HelpSupportWidgetsState extends State<HelpSupportWidgets> {
                         color:
                             Theme.of(context).colorScheme.surfaceContainerHigh,
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () =>
+                              _launchUrl('https://forms.gle/fqQoFRbx4GHY8oUx9'),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
@@ -72,7 +81,8 @@ class HelpSupportWidgetsState extends State<HelpSupportWidgets> {
                         color:
                             Theme.of(context).colorScheme.surfaceContainerHigh,
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () => _launchUrl(
+                              'https://www.termsfeed.com/live/9187d68f-f1e8-4d89-921f-f8432437ba97'),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
@@ -100,7 +110,13 @@ class HelpSupportWidgetsState extends State<HelpSupportWidgets> {
                         color:
                             Theme.of(context).colorScheme.surfaceContainerHigh,
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const UpdatesInfoAt()));
+                          },
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[

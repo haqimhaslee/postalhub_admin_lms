@@ -25,7 +25,7 @@ class HomeAnalyticsState extends State<HomeAnalytics> {
           ),
         ),
         SizedBox(
-          height: 20,
+          height: 5,
         ),
         Text(
           "Coming Soon",

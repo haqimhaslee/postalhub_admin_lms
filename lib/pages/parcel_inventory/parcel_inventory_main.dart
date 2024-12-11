@@ -52,11 +52,15 @@ class _ParcelInventoryMainState extends State<ParcelInventoryMain>
       ),
       body: TabBarView(controller: _tabController, children: const <Widget>[
         ParcelInventory(),
-        ParcelInventory(),
         Center(
           child: Text("Coming Soon"),
         ),
-        ParcelInventory(),
+        Center(
+          child: Text("Coming Soon"),
+        ),
+        Center(
+          child: Text("Coming Soon"),
+        ),
       ]),
     );
   }

@@ -130,7 +130,7 @@ class _CheckInParcelState extends State<CheckInParcel> {
   Future<void> getImage() async {
     try {
       final pickedFile = await imagePicker.pickImage(
-        source: ImageSource.gallery, // Use gallery for web and mobile
+        source: ImageSource.camera, // Use gallery for web and mobile
       );
 
       if (pickedFile != null) {

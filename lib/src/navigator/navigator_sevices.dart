@@ -69,7 +69,6 @@ class _NavigatorServicesState extends State<NavigatorServices> {
           drawer: isWideScreen
               ? null
               : SizedBox(
-                  width: 225,
                   child: NavigationDrawer(
                     backgroundColor:
                         Theme.of(context).colorScheme.surfaceContainerLow,
@@ -83,7 +82,6 @@ class _NavigatorServicesState extends State<NavigatorServices> {
             children: [
               if (isWideScreen)
                 SizedBox(
-                  width: 260,
                   child: NavigationDrawer(
                     backgroundColor:
                         Theme.of(context).colorScheme.surfaceContainerLow,

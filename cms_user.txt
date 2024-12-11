@@ -20,6 +20,7 @@ Password : um@5626
 
 
 firebase deploy --only hosting:postalhub-cms
+firebase deploy --only hosting:postalhub-cms-beta
 
 
 
