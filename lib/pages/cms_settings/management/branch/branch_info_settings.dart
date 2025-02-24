@@ -22,8 +22,9 @@ class _BranchInfoSettingsState extends State<BranchInfoSettings> {
     _fetchBranchData();
   }
 
-  Future<void> _updateOperatingTimesAndStatus(
-      TimeOfDay? newOpenTime, TimeOfDay? newClosingTime) async {
+  Future<void> _updateOpenOperatingTimes(
+    TimeOfDay? newOpenTime,
+  ) async {
     try {
       final user = FirebaseAuth.instance.currentUser;
       if (user == null) {
@@ -44,6 +45,42 @@ class _BranchInfoSettingsState extends State<BranchInfoSettings> {
           updates['openTime'] = DateFormat('h:mm a').format(
               DateTime(2023, 1, 1, newOpenTime.hour, newOpenTime.minute));
         }
+
+        await FirebaseFirestore.instance
+            .collection('branchManagement')
+            .doc(docId)
+            .update(updates);
+
+        setState(() {
+          if (newOpenTime != null) {
+            _openTime = updates['openTime'];
+          }
+        });
+      }
+    } catch (e) {
+      print("Error updating operating times: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error updating times: $e.toString()')));
+    }
+  }
+
+  Future<void> _updateCloseOperatingTimes(TimeOfDay? newClosingTime) async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null) {
+        return;
+      }
+
+      final querySnapshot = await FirebaseFirestore.instance
+          .collection('branchManagement')
+          .where('operatorEmail', isEqualTo: user.email)
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        final docId = querySnapshot.docs.first.id;
+
+        final updates = <String, dynamic>{};
+
         if (newClosingTime != null) {
           updates['closingTime'] = DateFormat('h:mm a').format(
               DateTime(2023, 1, 1, newClosingTime.hour, newClosingTime.minute));
@@ -55,9 +92,6 @@ class _BranchInfoSettingsState extends State<BranchInfoSettings> {
             .update(updates);
 
         setState(() {
-          if (newOpenTime != null) {
-            _openTime = updates['openTime'];
-          }
           if (newClosingTime != null) {
             _closingTime = updates['closingTime'];
           }
@@ -147,278 +181,106 @@ class _BranchInfoSettingsState extends State<BranchInfoSettings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Branch Info Settings"),
-        ),
-        body: _isLoading // Conditionally render based on loading state
-            ? const Center(child: CircularProgressIndicator())
-            : Center(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Padding(
-                        padding: EdgeInsets.only(
-                          top: 20,
-                          bottom: 5,
-                        ),
-                        child: Text(
-                          'BRANCH',
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.w800),
-                        )),
-                    Padding(
-                        padding: const EdgeInsets.only(
-                          top: 5,
-                          bottom: 15,
-                          left: 15,
-                          right: 15,
-                        ),
-                        child: Card(
-                            elevation: 0,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15)),
-                            ),
-                            child: Column(children: [
-                              SizedBox.fromSize(
-                                size: const Size(400, 55),
-                                child: ClipRRect(
-                                  borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(15),
-                                    topRight: Radius.circular(15),
-                                    bottomLeft: Radius.circular(15),
-                                    bottomRight: Radius.circular(15),
-                                  ),
-                                  child: Material(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .surfaceContainerHigh,
-                                    child: InkWell(
-                                      onTap: () {},
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          Text(
-                                            _campusName ?? "N/A",
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 13,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ]))),
-                    const Padding(
-                        padding: EdgeInsets.only(
-                          top: 5,
-                          bottom: 5,
-                        ),
-                        child: Text(
-                          'STATUS',
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.w800),
-                        )),
-                    Padding(
-                        padding: const EdgeInsets.only(
-                          top: 5,
-                          bottom: 15,
-                          left: 15,
-                          right: 15,
-                        ),
-                        child: Card(
-                            elevation: 0,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15)),
-                            ),
-                            child: Column(children: [
-                              SizedBox.fromSize(
-                                size: const Size(400, 55),
-                                child: ClipRRect(
-                                  borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(15),
-                                    topRight: Radius.circular(15),
-                                    bottomLeft: Radius.circular(15),
-                                    bottomRight: Radius.circular(15),
-                                  ),
-                                  child: Material(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .surfaceContainerHigh,
-                                    child: InkWell(
-                                      onTap: () {
-                                        showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return AlertDialog(
-                                              title:
-                                                  const Text("Change Status"),
-                                              content: const Text(
-                                                  "Are you sure you want to change the open status?"),
-                                              actions: <Widget>[
-                                                TextButton(
-                                                  child: const Text("Cancel"),
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                ),
-                                                TextButton(
-                                                  child: const Text("Change"),
-                                                  onPressed: () {
-                                                    _updateOpenStatus(
-                                                        !(_openStatus ??
-                                                            false));
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                ),
-                                              ],
-                                            );
-                                          },
-                                        );
-                                      },
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          Text(
-                                            _openStatus == true
-                                                ? "Open"
-                                                : "Closed",
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 13,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ]))),
-                    const Padding(
-                        padding: EdgeInsets.only(top: 5, bottom: 5, left: 20),
-                        child: Text(
-                          'OPERATING TIME',
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.w800),
-                        )),
-                    Padding(
-                        padding: const EdgeInsets.only(
-                          top: 5,
-                          bottom: 15,
-                          left: 15,
-                          right: 15,
-                        ),
-                        child: Card(
-                            elevation: 0,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15)),
-                            ),
-                            child: Column(children: [
-                              SizedBox.fromSize(
-                                size: const Size(400, 55),
-                                child: ClipRRect(
-                                  borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(15),
-                                    topRight: Radius.circular(15),
-                                  ),
-                                  child: Material(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .surfaceContainerHigh,
-                                    child: InkWell(
-                                      onTap: () async {
-                                        final TimeOfDay? newOpenTime =
-                                            await showTimePicker(
-                                          context: context,
-                                          initialTime: TimeOfDay.now(),
-                                        );
-                                        final TimeOfDay? newClosingTime =
-                                            await showTimePicker(
-                                          context: context,
-                                          initialTime: TimeOfDay.now(),
-                                        );
-
-                                        if (newOpenTime != null ||
-                                            newClosingTime != null) {
-                                          _updateOperatingTimesAndStatus(
-                                              newOpenTime, newClosingTime);
-                                        }
-                                      },
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          Text(
-                                            "Open Time : ${_openTime ?? "--"}",
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 13,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox.fromSize(
-                                size: const Size(400, 55),
-                                child: ClipRRect(
-                                  borderRadius: const BorderRadius.only(
-                                    bottomLeft: Radius.circular(15),
-                                    bottomRight: Radius.circular(15),
-                                  ),
-                                  child: Material(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .surfaceContainerHigh,
-                                    child: InkWell(
-                                      onTap: () async {
-                                        final TimeOfDay? newOpenTime =
-                                            await showTimePicker(
-                                          context: context,
-                                          initialTime: TimeOfDay.now(),
-                                        );
-                                        final TimeOfDay? newClosingTime =
-                                            await showTimePicker(
-                                          context: context,
-                                          initialTime: TimeOfDay.now(),
-                                        );
-
-                                        if (newOpenTime != null ||
-                                            newClosingTime != null) {
-                                          _updateOperatingTimesAndStatus(
-                                              newOpenTime, newClosingTime);
-                                        }
-                                      },
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          Text(
-                                            "Closing Time : ${_closingTime ?? "--"}",
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 13,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ]))),
-                  ],
+      appBar: AppBar(
+        title: Text("Branch Info Settings"),
+      ),
+      body: _isLoading // Conditionally render based on loading state
+          ? const Center(child: CircularProgressIndicator())
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 15, bottom: 0, top: 20),
+                  child: Text(
+                    "Branch",
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
                 ),
-              ));
+                ListTile(
+                  title: Text(
+                    _campusName ?? "N/A",
+                  ),
+                  leading: const Icon(Icons.domain_rounded),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15, bottom: 0, top: 20),
+                  child: Text(
+                    "Status",
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                ),
+                ListTile(
+                  title: Text(
+                    _openStatus == true ? "Open" : "Closed",
+                    style: TextStyle(
+                        color: _openStatus == true
+                            ? Theme.of(context).colorScheme.primary
+                            : Theme.of(context).colorScheme.error),
+                  ),
+                  subtitle: Text("Click to change status"),
+                  trailing: Switch(
+                    value: _openStatus ?? false,
+                    onChanged: (bool value) {
+                      _updateOpenStatus(!(_openStatus ?? false));
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15, bottom: 0, top: 20),
+                  child: Text(
+                    "Operating Time",
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                ),
+                ListTile(
+                  title: Text(
+                    "Opening Time : ${_openTime ?? "--"}",
+                  ),
+                  subtitle: Text("Click to change opening time"),
+                  leading: const Icon(Icons.schedule_rounded),
+                  onTap: () async {
+                    final TimeOfDay? newOpenTime = await showTimePicker(
+                      helpText: "Select new opening time",
+                      context: context,
+                      initialTime: TimeOfDay.now(),
+                    );
+
+                    if (newOpenTime != null) {
+                      _updateOpenOperatingTimes(
+                        newOpenTime,
+                      );
+                    }
+                  },
+                ),
+                ListTile(
+                  title: Text(
+                    "Closing Time : ${_closingTime ?? "--"}",
+                  ),
+                  subtitle: Text("Click to change closing time"),
+                  leading: const Icon(Icons.schedule_rounded),
+                  onTap: () async {
+                    final TimeOfDay? newClosingTime = await showTimePicker(
+                      helpText: "Select new closing time",
+                      context: context,
+                      initialTime: TimeOfDay.now(),
+                    );
+
+                    if (newClosingTime != null) {
+                      _updateCloseOperatingTimes(newClosingTime);
+                    }
+                  },
+                ),
+              ],
+            ),
+    );
   }
 }

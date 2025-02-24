@@ -8,16 +8,17 @@ import 'package:visibility_detector/visibility_detector.dart';
 final FirebaseAuth auth = FirebaseAuth.instance;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-class ParcelInventory extends StatefulWidget {
-  const ParcelInventory({super.key});
+class ParcelInventoryDelivered extends StatefulWidget {
+  const ParcelInventoryDelivered({super.key});
   @override
-  State<ParcelInventory> createState() => _ParcelInventoryState();
+  State<ParcelInventoryDelivered> createState() =>
+      _ParcelInventoryDeliveredState();
 }
 
-class _ParcelInventoryState extends State<ParcelInventory> {
+class _ParcelInventoryDeliveredState extends State<ParcelInventoryDelivered> {
   DocumentSnapshot? _lastDocument;
   bool _hasMore = true;
-  final int _limit = 10;
+  final int _limit = 9;
   List<DocumentSnapshot> _documents = [];
   late ScrollController _scrollController;
   String? campusCode;
@@ -77,6 +78,7 @@ class _ParcelInventoryState extends State<ParcelInventory> {
     Query query = FirebaseFirestore.instance
         .collection('parcelInventory')
         .where('warehouse', isEqualTo: campusCode) // Filter by warehouse
+        .where('status', isEqualTo: 3) // Filter by status
         .orderBy('timestamp_arrived_sorted', descending: true)
         .limit(_limit);
 

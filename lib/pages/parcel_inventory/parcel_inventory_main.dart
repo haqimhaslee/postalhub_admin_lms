@@ -1,7 +1,10 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
-import 'package:postalhub_admin_cms/pages/parcel_inventory/parcel_inventory.dart';
+import 'package:postalhub_admin_cms/pages/parcel_inventory/parcel_inventory_all.dart';
+import 'package:postalhub_admin_cms/pages/parcel_inventory/parcel_inventory_delivered.dart';
+import 'package:postalhub_admin_cms/pages/parcel_inventory/parcel_inventory_onDelivery.dart';
+import 'package:postalhub_admin_cms/pages/parcel_inventory/parcel_inventory_sorted.dart';
 
 class ParcelInventoryMain extends StatefulWidget {
   const ParcelInventoryMain({super.key});
@@ -51,16 +54,10 @@ class _ParcelInventoryMainState extends State<ParcelInventoryMain>
         ],
       ),
       body: TabBarView(controller: _tabController, children: const <Widget>[
-        ParcelInventory(),
-        Center(
-          child: Text("Coming Soon"),
-        ),
-        Center(
-          child: Text("Coming Soon"),
-        ),
-        Center(
-          child: Text("Coming Soon"),
-        ),
+        ParcelInventoryAll(),
+        ParcelInventorySorted(),
+        ParcelInventoryOnDelivery(),
+        ParcelInventoryDelivered(),
       ]),
     );
   }

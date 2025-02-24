@@ -1,0 +1,2 @@
+C:/Users/haqim/Project/Flutter/postalhub_admin_cms/android/app/.cxx/RelWithDebInfo/39536t2y/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/haqim/Project/Flutter/postalhub_admin_cms/android/app/.cxx/RelWithDebInfo/39536t2y/armeabi-v7a/CMakeFiles/rebuild_cache.dir

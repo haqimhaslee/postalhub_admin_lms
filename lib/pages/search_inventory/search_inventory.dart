@@ -22,6 +22,8 @@ class _SearchInventoryState extends State<SearchInventory> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: const Color.fromARGB(0, 158, 158, 158),
+        //TODO:: Remove FAB to appbar
+
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () => setState(() => _searchTerm = searchInput.text),
@@ -29,12 +31,7 @@ class _SearchInventoryState extends State<SearchInventory> {
           icon: const Icon(Icons.search),
         ),
         body: Padding(
-            padding: const EdgeInsets.only(
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-            ),
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
             child: Column(
               children: [
                 Padding(
@@ -65,12 +62,7 @@ class _SearchInventoryState extends State<SearchInventory> {
                 //const Divider(),
                 Expanded(
                   child: Padding(
-                      padding: const EdgeInsets.fromLTRB(
-                        10,
-                        0,
-                        10,
-                        0,
-                      ),
+                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: _buildSearchResults(_searchTerm)),
                 ),
               ],
@@ -132,6 +124,8 @@ class _SearchInventoryState extends State<SearchInventory> {
             ),
           );
         }
+
+        //================ Scaffold  here & fab delete function =============================== //
 
         return ListView.builder(
           shrinkWrap: true,

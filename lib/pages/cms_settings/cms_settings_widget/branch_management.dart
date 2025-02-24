@@ -14,67 +14,29 @@ class BranchManagementWidgetsState extends State<BranchManagementWidgets> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-            padding: EdgeInsets.only(
-              top: 5,
-              bottom: 5,
-            ),
-            child: Text(
-              'BRANCH MANAGEMENT',
-              style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800),
-            )),
         Padding(
-            padding: const EdgeInsets.only(
-              top: 5,
-              bottom: 15,
-              left: 15,
-              right: 15,
+          padding: const EdgeInsets.only(left: 15, bottom: 0, top: 20),
+          child: Text(
+            "Branch Management",
+            style: TextStyle(
+              fontSize: 15,
+              color: Theme.of(context).colorScheme.primary,
             ),
-            child: Card(
-                elevation: 0,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(15)),
-                ),
-                child: Column(children: [
-                  SizedBox.fromSize(
-                    size: const Size(400, 55),
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(15),
-                        topRight: Radius.circular(15),
-                        bottomLeft: Radius.circular(15),
-                        bottomRight: Radius.circular(15),
-                      ),
-                      child: Material(
-                        color:
-                            Theme.of(context).colorScheme.surfaceContainerHigh,
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const BranchInfoSettings()));
-                          },
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                "Branch Info Settings",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 13,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ]))),
+          ),
+        ),
+        ListTile(
+          title: const Text('Branch Info'),
+          subtitle: const Text('View and change branch info'),
+          leading: const Icon(Icons.domain_rounded),
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const BranchInfoSettings()));
+          },
+        ),
       ],
     );
   }

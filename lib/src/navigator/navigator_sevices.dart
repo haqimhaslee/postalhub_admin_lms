@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:animations/animations.dart';
 import 'package:postalhub_admin_cms/pages/parcel_inventory/parcel_inventory_main.dart';
-import 'package:postalhub_admin_cms/pages/parcel_management/check_in_parcel.dart';
+import 'package:postalhub_admin_cms/pages/parcel_management/check_in/check_in_parcel.dart';
 import 'package:postalhub_admin_cms/pages/parcel_management/check_out_parcel.dart';
 import 'package:postalhub_admin_cms/pages/home/home.dart';
 import 'package:postalhub_admin_cms/pages/loyalty_prog/loyalty_prog.dart';
@@ -83,8 +83,6 @@ class _NavigatorServicesState extends State<NavigatorServices> {
               if (isWideScreen)
                 SizedBox(
                   child: NavigationDrawer(
-                    backgroundColor:
-                        Theme.of(context).colorScheme.surfaceContainerLow,
                     onDestinationSelected: (i) =>
                         setState(() => _selectedIndex = i),
                     selectedIndex: _selectedIndex,
@@ -92,24 +90,15 @@ class _NavigatorServicesState extends State<NavigatorServices> {
                   ),
                 ),
               Expanded(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    topLeft:
-                        Radius.circular(constraints.maxWidth > 590 ? 40 : 25),
-                    topRight:
-                        Radius.circular(constraints.maxWidth > 590 ? 0 : 25),
+                child: PageTransitionSwitcher(
+                  transitionBuilder: (child, animation, secondaryAnimation) =>
+                      SharedAxisTransition(
+                    transitionType: SharedAxisTransitionType.vertical,
+                    animation: animation,
+                    secondaryAnimation: secondaryAnimation,
+                    child: child,
                   ),
-                  child: PageTransitionSwitcher(
-                    transitionBuilder: (child, animation, secondaryAnimation) =>
-                        SharedAxisTransition(
-                      fillColor: Theme.of(context).colorScheme.surface,
-                      transitionType: SharedAxisTransitionType.vertical,
-                      animation: animation,
-                      secondaryAnimation: secondaryAnimation,
-                      child: child,
-                    ),
-                    child: _widgetOptions.elementAt(_selectedIndex),
-                  ),
+                  child: _widgetOptions.elementAt(_selectedIndex),
                 ),
               ),
             ],

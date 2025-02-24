@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 
 class CheckInParcel extends StatefulWidget {
   const CheckInParcel({super.key});
@@ -108,7 +109,8 @@ class _CheckInParcelState extends State<CheckInParcel> {
 
   Future<String> uploadImage() async {
     String fileName = DateTime.now().millisecondsSinceEpoch.toString();
-    Reference reference = storage.ref().child('parcel_images/$fileName');
+    Reference reference =
+        FirebaseStorage.instance.ref().child('parcel_images/$fileName');
     UploadTask uploadTask;
 
     if (kIsWeb && webFile != null) {
@@ -116,8 +118,18 @@ class _CheckInParcelState extends State<CheckInParcel> {
       Uint8List imageData = await webFile!.readAsBytes();
       uploadTask = reference.putData(imageData);
     } else if (file != null) {
-      // Handle mobile image upload
-      uploadTask = reference.putFile(file!);
+      // Compress image before upload (only for mobile)
+      Uint8List? compressedImage = await FlutterImageCompress.compressWithFile(
+        format: CompressFormat.png,
+        file!.path,
+        quality: 60, // Adjust quality as needed
+      );
+
+      if (compressedImage == null) {
+        throw Exception("Image compression failed.");
+      }
+
+      uploadTask = reference.putData(compressedImage);
     } else {
       throw Exception("No image selected for upload.");
     }
@@ -130,7 +142,7 @@ class _CheckInParcelState extends State<CheckInParcel> {
   Future<void> getImage() async {
     try {
       final pickedFile = await imagePicker.pickImage(
-        source: ImageSource.camera, // Use gallery for web and mobile
+        source: ImageSource.camera,
       );
 
       if (pickedFile != null) {

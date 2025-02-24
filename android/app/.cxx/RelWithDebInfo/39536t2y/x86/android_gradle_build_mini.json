@@ -1,0 +1,20 @@
+{
+  "buildFiles": [
+    "C:\\Users\\haqim\\dev\\flutter\\packages\\flutter_tools\\gradle\\src\\main\\groovy\\CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "C:\\Users\\haqim\\AppData\\Local\\Android\\sdk\\cmake\\3.22.1\\bin\\ninja.exe",
+      "-C",
+      "C:\\Users\\haqim\\Project\\Flutter\\postalhub_admin_cms\\android\\app\\.cxx\\RelWithDebInfo\\39536t2y\\x86",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "C:\\Users\\haqim\\AppData\\Local\\Android\\sdk\\cmake\\3.22.1\\bin\\ninja.exe",
+    "-C",
+    "C:\\Users\\haqim\\Project\\Flutter\\postalhub_admin_cms\\android\\app\\.cxx\\RelWithDebInfo\\39536t2y\\x86",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {}
+}

@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:postalhub_admin_cms/pages/cms_settings/management/branch/branch_info_settings.dart';
 import 'package:postalhub_admin_cms/pages/home/home_control_panel/function/carousel/carousel.dart';
+import 'package:postalhub_admin_cms/pages/home/home_control_panel/function/newsletter/announcement_news_page.dart';
 
 class HomeControlPanel extends StatefulWidget {
   const HomeControlPanel({super.key});
@@ -55,6 +56,47 @@ class HomeControlPanelState extends State<HomeControlPanel> {
                           ),
                           Text(
                             "Carousel",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+              child: SizedBox(
+                width: 150,
+                height: 100,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(15),
+                  child: Material(
+                    color: Theme.of(context).colorScheme.surfaceContainerHigh,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const AnnouncementNewsPage()));
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          // Removed fixed width constraint
+                          Icon(
+                            Icons.newspaper_rounded,
+                            size: 40,
+                          ),
+                          Text(
+                            "Newsletter",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 13,

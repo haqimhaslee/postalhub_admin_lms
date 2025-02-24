@@ -1,9 +1,9 @@
+User Hierarchy truth table
 (ADMIN Previlage)  = 1
 Email : admin@postalhub.web.app
 Password : admin@672027
 
 (Operator Previlage) = 2
-
 1. UTP
 Email : utp@postalhub.web.app
 Password : utp@6720
@@ -13,23 +13,7 @@ Email : um@postalhub.web.app
 Password : um@5626
 
 
-
-
-
-
-
-
-firebase deploy --only hosting:postalhub-cms
-firebase deploy --only hosting:postalhub-cms-beta
-
-
-
-
-Available Status
--ARRIVED
--SORTED
--DELIVERED
-
+=================================================
 
 Parcel Status truth table
 1. 
@@ -53,10 +37,16 @@ DELIVERY   = 0
 DELIVERED  = 1
 
 
-
+=================================================
 
 Parcel Category truth table
 1. Normal
 2. Self-Collect
 3. COD
 
+
+
+=================================================
+
+firebase deploy --only hosting:postalhub-cms
+firebase deploy --only hosting:postalhub-cms-beta

@@ -35,7 +35,7 @@ def keystoreProperties = new Properties()
 android {
     namespace = "com.postalhub.admincms"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = "25.1.8937393"
+    ndkVersion = "28.0.13004108"
 
     compileOptions {
   sourceCompatibility JavaVersion.VERSION_17

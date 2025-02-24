@@ -28,7 +28,7 @@ class HomeAnalyticsState extends State<HomeAnalytics> {
           height: 5,
         ),
         Text(
-          "Coming Soon",
+          "Temporary Unavailable",
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 17,
