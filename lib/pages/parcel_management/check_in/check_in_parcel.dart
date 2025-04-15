@@ -120,9 +120,9 @@ class _CheckInParcelState extends State<CheckInParcel> {
     } else if (file != null) {
       // Compress image before upload (only for mobile)
       Uint8List? compressedImage = await FlutterImageCompress.compressWithFile(
-        format: CompressFormat.png,
+        format: CompressFormat.jpeg,
         file!.path,
-        quality: 60, // Adjust quality as needed
+        quality: 50, // Adjust quality as needed
       );
 
       if (compressedImage == null) {

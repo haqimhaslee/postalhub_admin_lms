@@ -13,9 +13,9 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await FirebaseAppCheck.instance.activate(
-    //webProvider: ReCaptchaV3Provider('key-here'),
+    webProvider: ReCaptchaV3Provider('key-here'),
     androidProvider: AndroidProvider.playIntegrity,
-    //appleProvider: AppleProvider.appAttest,
+    appleProvider: AppleProvider.appAttest,
   );
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,

@@ -11,77 +11,106 @@ class AnalyticsParcel extends StatefulWidget {
 
 class AnalyticsParcelState extends State<AnalyticsParcel> {
   int totalParcels = 0;
-  int totalParcelsArrived = 0;
-  int totalParcelsOnDelivery = 0;
-  int totalParcelsDelivered = 0;
-  int totalUserClient = 0;
-  int totalUserAdmin = 0;
+  int totalParcelDelivered = 0;
+  int totalParcelOnDelivery = 0;
+  int totalParcelSorted = 0;
 
   @override
   void initState() {
     super.initState();
-    _fetchData();
+    fetchParcelCount();
   }
 
-  Future<void> _fetchData() async {
+  Future<void> fetchParcelCount() async {
     try {
-      // Fetch each collection separately
-      final parcelInventorySnapshot =
-          await FirebaseFirestore.instance.collection('parcelInventory').get();
-      final clientUserSnapshot =
-          await FirebaseFirestore.instance.collection('client_user').get();
-      final adminUserSnapshot =
-          await FirebaseFirestore.instance.collection('admin_user').get();
-
+      //all
+      final queryAll = FirebaseFirestore.instance.collection('parcelInventory');
+      final aggregateQueryAll = await queryAll.count().get();
+      //delivered
+      final queryDelivered = FirebaseFirestore.instance
+          .collection('parcelInventory')
+          .where('status', isEqualTo: 3);
+      final aggregateQueryDelivered = await queryDelivered.count().get();
+      //sorted
+      final querySorted = FirebaseFirestore.instance
+          .collection('parcelInventory')
+          .where('status', isEqualTo: 1);
+      final aggregateQuerySorted = await querySorted.count().get();
+      //ondelivery
+      final queryOnDelivery = FirebaseFirestore.instance
+          .collection('parcelInventory')
+          .where('status', isEqualTo: 2);
+      final aggregateQueryOnDelivery = await queryOnDelivery.count().get();
       setState(() {
-        totalParcels = parcelInventorySnapshot.size;
-        totalUserClient = clientUserSnapshot.size;
-        totalUserAdmin = adminUserSnapshot.size;
-
-        // Accessing 'status' as an integer
-        totalParcelsArrived = parcelInventorySnapshot.docs
-            .where((doc) => doc.data()['status'] == 1)
-            .length;
-        totalParcelsOnDelivery = parcelInventorySnapshot.docs
-            .where((doc) => doc.data()['status'] == 2)
-            .length;
-        totalParcelsDelivered = parcelInventorySnapshot.docs
-            .where((doc) => doc.data()['status'] == 3)
-            .length;
+        totalParcels = aggregateQueryAll.count!;
+        totalParcelDelivered = aggregateQueryDelivered.count!;
+        totalParcelSorted = aggregateQuerySorted.count!;
+        totalParcelOnDelivery = aggregateQueryOnDelivery.count!;
       });
     } catch (e) {
-      print("Error fetching data: $e");
+      print('Error getting document count: $e');
     }
   }
 
+  @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         const SizedBox(height: 20),
         Text(
-          "Analytics",
+          "All branches",
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 20,
-            fontWeight: FontWeight.w900,
+            //fontWeight: FontWeight.w900,
             color: Theme.of(context).colorScheme.onSurface,
           ),
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 5),
         Wrap(
           alignment: WrapAlignment.center,
           children: [
             _buildAnalyticsCard(
-                context, totalParcels, "Total parcel (Inventory)"),
+              context,
+              totalParcels,
+              "All parcel",
+            ),
             _buildAnalyticsCard(
-                context, totalParcelsArrived, "Arrived - Sorted"),
-            _buildAnalyticsCard(context, totalParcelsOnDelivery, "On delivery"),
-            _buildAnalyticsCard(context, totalParcelsDelivered, "Delivered"),
-            _buildAnalyticsCard(context, totalUserClient, "User (Client)"),
-            _buildAnalyticsCard(context, totalUserAdmin, "User (Admin)"),
+                context, totalParcelSorted, "All parcel-Sorted"),
+            _buildAnalyticsCard(
+                context, totalParcelOnDelivery, "All parcel-On Delivery"),
+            _buildAnalyticsCard(
+                context, totalParcelDelivered, "All parcel-Delivered"),
           ],
         ),
+        Text(
+          "This branch",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 20,
+            //fontWeight: FontWeight.w900,
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
+        ),
+        Wrap(
+          alignment: WrapAlignment.center,
+          children: [
+            _buildAnalyticsCard(
+              context,
+              totalParcelOnDelivery,
+              "All parcel",
+            ),
+            _buildAnalyticsCard(
+                context, totalParcelOnDelivery, "All parcel-Sorted"),
+            _buildAnalyticsCard(
+                context, totalParcelOnDelivery, "All parcel-On Delivery"),
+            _buildAnalyticsCard(
+                context, totalParcelOnDelivery, "All parcel-Delivered"),
+          ],
+        ),
+        const SizedBox(height: 20),
+        Divider(),
       ],
     );
   }
@@ -95,33 +124,29 @@ class AnalyticsParcelState extends State<AnalyticsParcel> {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(15),
           child: Material(
-            color: Theme.of(context).colorScheme.surfaceVariant,
-            child: InkWell(
-              onTap: () {},
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  // Removed fixed width constraint
-                  Text(
-                    "$value",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.w900,
-                      color: Theme.of(context).colorScheme.onSurface,
-                    ),
+            color: Theme.of(context).colorScheme.surfaceContainerHigh,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  "$value",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.w900,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
-                  Text(
-                    label,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).colorScheme.onSurface,
-                    ),
+                ),
+                Text(
+                  label,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

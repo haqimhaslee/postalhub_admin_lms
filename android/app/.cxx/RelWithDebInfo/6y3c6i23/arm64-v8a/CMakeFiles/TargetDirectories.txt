@@ -1,0 +1,2 @@
+C:/Users/haqim/Project/Flutter/Postal Hub/postalhub_admin_lms/android/app/.cxx/RelWithDebInfo/6y3c6i23/arm64-v8a/CMakeFiles/edit_cache.dir
+C:/Users/haqim/Project/Flutter/Postal Hub/postalhub_admin_lms/android/app/.cxx/RelWithDebInfo/6y3c6i23/arm64-v8a/CMakeFiles/rebuild_cache.dir

@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use
 import 'package:flutter/material.dart';
+import 'package:postalhub_admin_cms/pages/home/analytics/analytics_parcel.dart';
 
 class HomeAnalytics extends StatefulWidget {
   const HomeAnalytics({super.key});
@@ -27,14 +28,7 @@ class HomeAnalyticsState extends State<HomeAnalytics> {
         SizedBox(
           height: 5,
         ),
-        Text(
-          "Temporary Unavailable",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 17,
-            color: Theme.of(context).colorScheme.onSurface,
-          ),
-        ),
+        AnalyticsParcel(),
         SizedBox(
           height: 10,
         ),
