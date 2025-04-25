@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:animations/animations.dart';
+import 'package:postalhub_admin_cms/pages/customer_services/curtomer_services.dart';
 import 'package:postalhub_admin_cms/pages/parcel_inventory/parcel_inventory_main.dart';
 import 'package:postalhub_admin_cms/pages/parcel_management/check_in/check_in_parcel.dart';
 import 'package:postalhub_admin_cms/pages/parcel_management/check_out_parcel.dart';
@@ -29,6 +30,7 @@ class _NavigatorServicesState extends State<NavigatorServices> {
     const CheckOutParcel(),
     const OutForDelivery(),
     const LoyaltyProg(),
+    const CustomerServices(),
     const MyProfile(),
   ];
 
@@ -160,6 +162,11 @@ class _NavigatorServicesState extends State<NavigatorServices> {
         label: Text("Reward Point"),
         icon: Icon(Icons.card_membership_outlined),
         selectedIcon: Icon(Icons.card_membership_rounded),
+      ),
+      const NavigationDrawerDestination(
+        label: Text("Customer Services"),
+        icon: Icon(Icons.feedback_outlined),
+        selectedIcon: Icon(Icons.feedback_outlined),
       ),
       const Padding(
         padding: EdgeInsets.fromLTRB(28, 5, 28, 5),

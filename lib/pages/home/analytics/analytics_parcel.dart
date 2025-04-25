@@ -1,4 +1,3 @@
-// ignore_for_file: deprecated_member_use
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -59,7 +58,7 @@ class AnalyticsParcelState extends State<AnalyticsParcel> {
       children: [
         const SizedBox(height: 20),
         Text(
-          "All branches",
+          "All parcels",
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 20,
@@ -74,43 +73,14 @@ class AnalyticsParcelState extends State<AnalyticsParcel> {
             _buildAnalyticsCard(
               context,
               totalParcels,
-              "All parcel",
+              "All-Registered",
             ),
+            _buildAnalyticsCard(context, totalParcelSorted, "All-Sorted"),
             _buildAnalyticsCard(
-                context, totalParcelSorted, "All parcel-Sorted"),
-            _buildAnalyticsCard(
-                context, totalParcelOnDelivery, "All parcel-On Delivery"),
-            _buildAnalyticsCard(
-                context, totalParcelDelivered, "All parcel-Delivered"),
+                context, totalParcelOnDelivery, "All-On Delivery"),
+            _buildAnalyticsCard(context, totalParcelDelivered, "All-Delivered"),
           ],
         ),
-        Text(
-          "This branch",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 20,
-            //fontWeight: FontWeight.w900,
-            color: Theme.of(context).colorScheme.onSurface,
-          ),
-        ),
-        Wrap(
-          alignment: WrapAlignment.center,
-          children: [
-            _buildAnalyticsCard(
-              context,
-              totalParcelOnDelivery,
-              "All parcel",
-            ),
-            _buildAnalyticsCard(
-                context, totalParcelOnDelivery, "All parcel-Sorted"),
-            _buildAnalyticsCard(
-                context, totalParcelOnDelivery, "All parcel-On Delivery"),
-            _buildAnalyticsCard(
-                context, totalParcelOnDelivery, "All parcel-Delivered"),
-          ],
-        ),
-        const SizedBox(height: 20),
-        Divider(),
       ],
     );
   }
@@ -128,13 +98,17 @@ class AnalyticsParcelState extends State<AnalyticsParcel> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text(
-                  "$value",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.w900,
-                    color: Theme.of(context).colorScheme.onSurface,
+                TweenAnimationBuilder<int>(
+                  tween: IntTween(begin: 0, end: value),
+                  duration: const Duration(seconds: 1),
+                  builder: (context, animatedValue, _) => Text(
+                    "$animatedValue",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.w900,
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
                   ),
                 ),
                 Text(

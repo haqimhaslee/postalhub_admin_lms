@@ -3,7 +3,7 @@ description: "Postalhub CMS"
 
 publish_to: 'none' 
 
-version: 25.2.2302+7
+version: 25.4.1605+8
 
 environment:
   sdk: '>=3.4.0 <4.0.0'
@@ -14,33 +14,33 @@ dependencies:
   cupertino_icons: ^1.0.6
   dynamic_color: ^1.7.0
   animations: ^2.0.8
-  cloud_firestore: ^4.14.0
+  cloud_firestore: ^5.6.6
   image_picker: ^1.0.7
   path: ^1.9.0
-  firebase_core: ^2.31.0
-  firebase_storage: ^11.6.0
-  firebase_database: ^10.5.5
-  firebase_auth: ^4.20.0
-  intl: ^0.17.0
+  firebase_core: ^3.13.0
+  firebase_storage: ^12.4.5
+  firebase_database: ^11.3.5
+  firebase_auth: ^5.5.2
+  intl: ^0.20.2
   loading_animation_widget: ^1.2.0+4
-  visibility_detector: ^0.2.0
-  shimmer: ^2.0.0
-  file_picker: ^8.0.3
+  visibility_detector: ^0.4.0+2
+  shimmer: ^3.0.0
+  file_picker: ^10.1.2
   another_stepper: ^1.2.2
   image_picker_for_web: ^3.0.5
   carousel_slider: ^5.0.0
   cached_network_image: ^3.4.0
   barcode_scan2: ^4.3.3
-  permission_handler: ^11.3.1
+  permission_handler: ^12.0.0+1
   image_picker_web: ^4.0.0
-  firebase_messaging: ^14.9.4
+  firebase_messaging: ^15.2.5
   image_network: ^2.5.6
   url_launcher: ^6.3.1
   shared_preferences: ^2.3.3
   camera: ^0.11.0+2
   flutter_markdown: ^0.7.4+3
   flutter_image_compress: ^2.3.0
-  firebase_app_check: ^0.2.2+7
+  firebase_app_check: ^0.3.2+5
   
   
   
@@ -52,7 +52,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   
-  flutter_lints: ^3.0.0
+  flutter_lints: ^5.0.0
 
 flutter:
   uses-material-design: true
