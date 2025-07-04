@@ -16,19 +16,7 @@ For help getting started with Flutter development, view the
 samples, guidance on mobile development, and a full API reference.
 
 
-User Hierarchy truth table
-(ADMIN Previlage)  = 1
-Email : admin@postalhub.web.app
-Password : admin@672027
 
-(Operator Previlage) = 2
-1. UTP
-Email : utp@postalhub.web.app
-Password : utp@6720
-
-2. UM
-Email : um@postalhub.web.app
-Password : um@5626
 
 
 =================================================
@@ -67,4 +55,3 @@ Parcel Category truth table
 =================================================
 
 firebase deploy --only hosting:postalhub-cms
-firebase deploy --only hosting:postalhub-cms-beta
