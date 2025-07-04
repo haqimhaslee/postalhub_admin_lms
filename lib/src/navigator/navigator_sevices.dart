@@ -41,22 +41,8 @@ class _NavigatorServicesState extends State<NavigatorServices> {
         final isWideScreen = constraints.maxWidth > 680;
 
         return Scaffold(
-          backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,
           appBar: AppBar(
-            backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,
-            elevation: 0,
-            scrolledUnderElevation: 0,
-            title: Row(
-              children: [
-                Image.asset(
-                  'assets/images/postalhub_logo.jpg',
-                  width: 40,
-                  height: 40,
-                  fit: BoxFit.cover,
-                ),
-                const Text('  Postal Hub CMS'),
-              ],
-            ),
+            title: const Text('Postal Hub LMS'),
             leading: isWideScreen
                 ? null
                 : Builder(
@@ -72,8 +58,6 @@ class _NavigatorServicesState extends State<NavigatorServices> {
               ? null
               : SizedBox(
                   child: NavigationDrawer(
-                    backgroundColor:
-                        Theme.of(context).colorScheme.surfaceContainerLow,
                     onDestinationSelected: (i) =>
                         setState(() => _selectedIndex = i),
                     selectedIndex: _selectedIndex,
@@ -85,6 +69,7 @@ class _NavigatorServicesState extends State<NavigatorServices> {
               if (isWideScreen)
                 SizedBox(
                   child: NavigationDrawer(
+                    backgroundColor: Theme.of(context).colorScheme.surface,
                     onDestinationSelected: (i) =>
                         setState(() => _selectedIndex = i),
                     selectedIndex: _selectedIndex,

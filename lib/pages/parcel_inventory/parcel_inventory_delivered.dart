@@ -103,7 +103,10 @@ class _ParcelInventoryDeliveredState extends State<ParcelInventoryDelivered> {
   Widget build(BuildContext context) {
     return campusCode ==
             null // Show loading indicator while fetching campusCode
-        ? const Center(child: CircularProgressIndicator())
+        ? const Center(
+            child: CircularProgressIndicator(
+            year2023: false,
+          ))
         : Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -178,7 +181,7 @@ class _MyListItemWidgetState extends State<MyListItemWidget> {
               padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
               child: Card(
                 elevation: 0,
-                color: Theme.of(context).colorScheme.surfaceContainerLow,
+                color: Theme.of(context).colorScheme.surfaceVariant,
                 child: Column(
                   children: [
                     SizedBox(

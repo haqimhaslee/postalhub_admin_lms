@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -120,9 +122,9 @@ class _CheckInParcelState extends State<CheckInParcel> {
     } else if (file != null) {
       // Compress image before upload (only for mobile)
       Uint8List? compressedImage = await FlutterImageCompress.compressWithFile(
-        format: CompressFormat.jpeg,
+        format: CompressFormat.png,
         file!.path,
-        quality: 50, // Adjust quality as needed
+        quality: 40, // Adjust quality as needed
       );
 
       if (compressedImage == null) {
@@ -426,8 +428,10 @@ class _CheckInParcelState extends State<CheckInParcel> {
                   },
             child: Center(
               child: _isLoading // Conditionally render button or loading icon
-                  ? const CircularProgressIndicator() // Show loading icon
-                  : const Text("Add parcel"), // Show button text
+                  ? const CircularProgressIndicator(
+                      year2023: false,
+                    ) // Show loading icon
+                  : const Text("Key-In"), // Show button text
             ),
           ),
         ],

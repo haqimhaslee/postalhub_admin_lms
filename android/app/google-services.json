@@ -8,31 +8,25 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:955163893298:android:7c00a8f4e9d0863d93e62b",
-        "android_client_info": {
-          "package_name": "com.postalhub.admincms"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyADnzeTel4C2y0vLkcNrSh-FLjffrCtMCs"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:955163893298:android:08d5e79414bb1d2e93e62b",
         "android_client_info": {
           "package_name": "com.postalhub.admincms"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "955163893298-hipqosapc96ud2qn8vk3l4ob0o6m4pds.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.postalhub.admincms",
+            "certificate_hash": "435bf1e244e9acd5839c33f12a1c4d334844a005"
+          }
+        },
+        {
+          "client_id": "955163893298-v3a0k24l97rd2b3hkdvgp8mj4n0k4lae.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyADnzeTel4C2y0vLkcNrSh-FLjffrCtMCs"
@@ -40,7 +34,71 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "955163893298-v3a0k24l97rd2b3hkdvgp8mj4n0k4lae.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "955163893298-ici6rkep0om2qrrt8p2aaad2gj9ic2t8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.postalhubAdminCms"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:955163893298:android:62a60c72ff83b44d93e62b",
+        "android_client_info": {
+          "package_name": "com.postalhub.tracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "955163893298-frpdub0179825oanpakhgnje5na6fnl8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.postalhub.tracker",
+            "certificate_hash": "bc9322005e0ff28bd5b473ee5d2372217acc09c8"
+          }
+        },
+        {
+          "client_id": "955163893298-q88gju68fggippqohrs2kv2uo99mroo4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.postalhub.tracker",
+            "certificate_hash": "21254d805e12efad1d67ffee7c8afa4512d5c741"
+          }
+        },
+        {
+          "client_id": "955163893298-v3a0k24l97rd2b3hkdvgp8mj4n0k4lae.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADnzeTel4C2y0vLkcNrSh-FLjffrCtMCs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "955163893298-v3a0k24l97rd2b3hkdvgp8mj4n0k4lae.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "955163893298-ici6rkep0om2qrrt8p2aaad2gj9ic2t8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.postalhubAdminCms"
+              }
+            }
+          ]
         }
       }
     }

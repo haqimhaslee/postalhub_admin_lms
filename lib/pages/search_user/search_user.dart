@@ -65,13 +65,7 @@ class _SearchUserState extends State<SearchUser> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              "assets/gif/search.gif",
-            ),
-            const Text('Search user'),
-            const Text('*Case sensitive')
-          ],
+          children: [const Text('Search user'), const Text('*Case sensitive')],
         ),
       );
     }

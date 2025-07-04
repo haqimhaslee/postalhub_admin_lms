@@ -1,4 +1,6 @@
 // Custom UI Element files
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 
 //Color UI
@@ -49,6 +51,7 @@ const lightColorScheme = ColorScheme(
   surfaceContainer: Color(0xffededf4),
   surfaceContainerHigh: Color(0xffe7e8ee),
   surfaceContainerHighest: Color(0xffe2e2e9),
+  surfaceVariant: Color(0xffededf4),
 );
 const darkColorScheme = ColorScheme(
   brightness: Brightness.dark,
@@ -97,6 +100,7 @@ const darkColorScheme = ColorScheme(
   surfaceContainer: Color(0xff1d2024),
   surfaceContainerHigh: Color(0xff282a2f),
   surfaceContainerHighest: Color(0xff33353a),
+  surfaceVariant: Color(0xff1d2024),
 );
 
 

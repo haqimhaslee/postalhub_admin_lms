@@ -89,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             const SizedBox(height: 20),
                             const Text(
-                              "Postal Hub CMS",
+                              "Postal Hub LMS",
                               style: TextStyle(
                                 fontSize: 20,
                                 color: Colors.black,
@@ -113,7 +113,7 @@ class _LoginPageState extends State<LoginPage> {
                       children: [
                         const SizedBox(height: 20),
                         Card(
-                          elevation: 5,
+                          elevation: 0,
                           child: Padding(
                             padding: const EdgeInsets.all(20),
                             child: Column(

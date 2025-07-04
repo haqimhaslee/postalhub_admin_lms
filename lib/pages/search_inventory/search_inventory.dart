@@ -2,8 +2,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:another_stepper/another_stepper.dart';
 import 'package:image_network/image_network.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:syncfusion_flutter_barcodes/barcodes.dart';
+import 'package:timelines_plus/timelines_plus.dart';
 
 class SearchInventory extends StatefulWidget {
   const SearchInventory({super.key});
@@ -17,54 +19,47 @@ final searchInput = TextEditingController();
 class _SearchInventoryState extends State<SearchInventory> {
   final _firestore = FirebaseFirestore.instance;
   String _searchTerm = '';
+  bool _hasError = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color.fromARGB(0, 158, 158, 158),
-        //TODO:: Remove FAB to appbar
-
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () => setState(() => _searchTerm = searchInput.text),
-          label: const Text("Search"),
-          icon: const Icon(Icons.search),
-        ),
-        body: Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+        body: Align(
+            alignment: Alignment.topCenter,
             child: Column(
               children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.width > 590 ? 30 : 20,
-                    left: MediaQuery.of(context).size.width > 590 ? 30 : 20,
-                    right: MediaQuery.of(context).size.width > 590 ? 28 : 20,
-                    bottom: MediaQuery.of(context).size.width > 590 ? 28 : 10,
+                ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    maxWidth: 600,
                   ),
-                  child: TextField(
-                    controller: searchInput,
-                    decoration: InputDecoration(
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            searchInput.clear();
-                          });
-                        },
-                        icon: const Icon(Icons.cancel),
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      labelText: 'Tracking Number*',
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        top: 10, left: 20, right: 20, bottom: 0),
+                    child: TextField(
+                      controller: searchInput,
+                      decoration: InputDecoration(
+                          labelText: 'Tracking Number*',
+                          suffixIcon: Padding(
+                            padding: const EdgeInsets.only(
+                                bottom: 5, top: 5, right: 5),
+                            child: IconButton(
+                              icon: const Icon(Icons.search_rounded),
+                              onPressed: () => setState(() {
+                                _hasError = false;
+                                _searchTerm = searchInput.text;
+                              }),
+                            ),
+                          )),
                     ),
                   ),
                 ),
-                //const Divider(),
                 Expanded(
-                  child: Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  child: ConstrainedBox(
+                      constraints: const BoxConstraints(
+                        maxWidth: 700,
+                      ),
                       child: _buildSearchResults(_searchTerm)),
-                ),
+                )
               ],
             )));
   }
@@ -76,12 +71,12 @@ class _SearchInventoryState extends State<SearchInventory> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
-              "assets/gif/search.gif",
-              scale: 2,
+            Text(
+              '*Case sensitive',
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurface, fontSize: 12),
+              textAlign: TextAlign.center,
             ),
-            const Text('Enter a tracking number to search.'),
-            const Text('*Tracking numbers are case sensitive')
           ],
         ),
       );
@@ -95,7 +90,37 @@ class _SearchInventoryState extends State<SearchInventory> {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+          return Shimmer.fromColors(
+              direction: ShimmerDirection.ltr,
+              period: const Duration(milliseconds: 1000),
+              baseColor: Theme.of(context).colorScheme.surfaceContainerLowest,
+              highlightColor:
+                  Theme.of(context).colorScheme.surfaceContainerHighest,
+              child: ListView(
+                children: const [
+                  Card(
+                      elevation: 0,
+                      child: SizedBox(
+                        child: AspectRatio(
+                          aspectRatio: 16 / 5,
+                        ),
+                      )),
+                  Card(
+                      elevation: 0,
+                      child: SizedBox(
+                        child: AspectRatio(
+                          aspectRatio: 16 / 5,
+                        ),
+                      )),
+                  Card(
+                      elevation: 0,
+                      child: SizedBox(
+                        child: AspectRatio(
+                          aspectRatio: 16 / 5,
+                        ),
+                      )),
+                ],
+              ));
         }
 
         final documents = snapshot.data?.docs ?? [];
@@ -106,26 +131,26 @@ class _SearchInventoryState extends State<SearchInventory> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Image.asset(
-                  "assets/gif/not_found.gif",
+                  "assets/images/components/parcel_not_found.png",
+                  scale: 3,
                 ),
-                const Text('Sorry...'),
-                const Padding(
-                  padding: EdgeInsets.only(
-                    left: 30,
-                    right: 30,
-                  ),
-                  child: Text(
-                    'No items found for that tracking number or your parcel might not be sorted yet.',
-                    textAlign: TextAlign.center,
-                  ),
+                Text(
+                  'Sorry...',
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSurface,
+                      fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
                 ),
-                const Text('Please check again later.'),
+                Text(
+                  '\nNo items found for that tracking number or\nyour parcel might not be sorted yet.\nPlease check again later.',
+                  style:
+                      TextStyle(color: Theme.of(context).colorScheme.onSurface),
+                  textAlign: TextAlign.center,
+                ),
               ],
             ),
           );
         }
-
-        //================ Scaffold  here & fab delete function =============================== //
 
         return ListView.builder(
           shrinkWrap: true,
@@ -136,10 +161,8 @@ class _SearchInventoryState extends State<SearchInventory> {
             final trackingId2 = data['trackingId2']?.toString() ?? '';
             final trackingId3 = data['trackingId3']?.toString() ?? '';
             final trackingId4 = data['trackingId4']?.toString() ?? '';
-            final receiverRemarks = data['receiverRemarks']?.toString() ?? '';
             final remarks = data['remarks']?.toString() ?? '';
             final status = data['status'];
-            final receiverImageUrl = data['receiverImageUrl'];
             final timestampSorted = data['timestamp_arrived_sorted'] != null
                 ? (data['timestamp_arrived_sorted'] as Timestamp).toDate()
                 : null;
@@ -148,455 +171,205 @@ class _SearchInventoryState extends State<SearchInventory> {
                 : null;
             final warehouseCode = data['warehouse']?.toString() ?? '';
 
-            List<StepperData> stepperDataDelivered = [
-              StepperData(
-                  title: StepperText(
-                    "Ready to take",
-                    textStyle: const TextStyle(
-                      color: Colors.grey,
-                    ),
-                  ),
-                  subtitle: StepperText("Arriving/Sorting"),
-                  iconWidget: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: const BoxDecoration(
-                        color: Colors.green,
-                        borderRadius: BorderRadius.all(Radius.circular(30))),
-                    child: const Icon(Icons.inventory, color: Colors.white),
-                  )),
-              StepperData(
-                  title: StepperText(
-                    "On delivery",
-                    textStyle: const TextStyle(
-                      color: Colors.grey,
-                    ),
-                  ),
-                  subtitle: StepperText("On delivery"),
-                  iconWidget: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: const BoxDecoration(
-                        color: Colors.green,
-                        borderRadius: BorderRadius.all(Radius.circular(30))),
-                    child:
-                        const Icon(Icons.delivery_dining, color: Colors.white),
-                  )),
-              StepperData(
-                  title: StepperText("Delivered",
-                      textStyle: const TextStyle(
-                        color: Colors.grey,
-                      )),
-                  subtitle: StepperText("Delivery"),
-                  iconWidget: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: const BoxDecoration(
-                        color: Colors.green,
-                        borderRadius: BorderRadius.all(Radius.circular(30))),
-                    child: const Icon(Icons.check_rounded, color: Colors.white),
-                  ))
-            ];
-
-            List<StepperData> stepperDataSorted = [
-              StepperData(
-                  title: StepperText(
-                    "Ready to take",
-                    textStyle: const TextStyle(
-                      color: Colors.grey,
-                    ),
-                  ),
-                  subtitle: StepperText("Arriving/Sorting"),
-                  iconWidget: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: const BoxDecoration(
-                        color: Colors.green,
-                        borderRadius: BorderRadius.all(Radius.circular(30))),
-                    child: const Icon(Icons.inventory, color: Colors.white),
-                  )),
-              StepperData(
-                  title: StepperText(
-                    "On delivery",
-                    textStyle: const TextStyle(
-                      color: Colors.grey,
-                    ),
-                  ),
-                  subtitle: StepperText("On delivery"),
-                  iconWidget: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: const BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.all(Radius.circular(30))),
-                    child:
-                        const Icon(Icons.delivery_dining, color: Colors.white),
-                  )),
-              StepperData(
-                  title: StepperText("Delivered",
-                      textStyle: const TextStyle(
-                        color: Colors.grey,
-                      )),
-                  subtitle: StepperText("Delivery"),
-                  iconWidget: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: const BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.all(Radius.circular(30))),
-                    child: const Icon(Icons.check_rounded, color: Colors.white),
-                  ))
-            ];
-
-            List<StepperData> stepperDataOnDelivery = [
-              StepperData(
-                  title: StepperText(
-                    "Ready to take",
-                    textStyle: const TextStyle(
-                      color: Colors.grey,
-                    ),
-                  ),
-                  subtitle: StepperText("Arriving/Sorting"),
-                  iconWidget: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: const BoxDecoration(
-                        color: Colors.green,
-                        borderRadius: BorderRadius.all(Radius.circular(30))),
-                    child: const Icon(Icons.inventory, color: Colors.white),
-                  )),
-              StepperData(
-                  title: StepperText(
-                    "On delivery",
-                    textStyle: const TextStyle(
-                      color: Colors.grey,
-                    ),
-                  ),
-                  subtitle: StepperText("On delivery"),
-                  iconWidget: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: const BoxDecoration(
-                        color: Colors.green,
-                        borderRadius: BorderRadius.all(Radius.circular(30))),
-                    child:
-                        const Icon(Icons.delivery_dining, color: Colors.white),
-                  )),
-              StepperData(
-                  title: StepperText("Not delivered",
-                      textStyle: const TextStyle(
-                        color: Colors.grey,
-                      )),
-                  subtitle: StepperText("Delivery"),
-                  iconWidget: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: const BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.all(Radius.circular(30))),
-                    child: const Icon(Icons.check_rounded, color: Colors.white),
-                  ))
-            ];
-
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Column(
-                  children: [
-                    Card(
-                      color:
-                          Theme.of(context).colorScheme.surfaceContainerHighest,
-                      elevation: 0,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          top: 15,
-                          left: 25,
-                          right: 25,
-                          bottom: 15,
-                        ),
-                        child: switch (status) {
-                          1 => AnotherStepper(
-                              stepperList: stepperDataSorted,
-                              stepperDirection: Axis.horizontal,
-                              iconWidth: 40,
-                              iconHeight: 40,
-                              activeBarColor: Colors.green,
-                              inActiveBarColor: Colors.grey,
-                              inverted: true,
-                              verticalGap: 20,
-                              activeIndex: 0,
-                              barThickness: 8,
-                            ),
-                          2 => AnotherStepper(
-                              stepperList: stepperDataOnDelivery,
-                              stepperDirection: Axis.horizontal,
-                              iconWidth: 40,
-                              iconHeight: 40,
-                              activeBarColor: Colors.green,
-                              inActiveBarColor: Colors.grey,
-                              inverted: true,
-                              verticalGap: 20,
-                              activeIndex: 1,
-                              barThickness: 8,
-                            ),
-                          3 => AnotherStepper(
-                              stepperList: stepperDataDelivered,
-                              stepperDirection: Axis.horizontal,
-                              iconWidth: 40,
-                              iconHeight: 40,
-                              activeBarColor: Colors.green,
-                              inActiveBarColor: Colors.grey,
-                              inverted: true,
-                              verticalGap: 20,
-                              activeIndex: 2,
-                              barThickness: 8,
-                            ),
-                          _ => Container(), // Handle default case if needed
-                        },
-                      ),
-                    )
-                  ],
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+              child: FixedTimeline.tileBuilder(
+                theme: TimelineThemeData(
+                  nodePosition: 0,
+                  indicatorPosition: 0.3,
+                  color: Colors.grey,
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Card(
-                  elevation: 0,
-                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Padding(
-                          padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                builder: TimelineTileBuilder.connected(
+                  connectionDirection: ConnectionDirection.before,
+                  itemCount: 3,
+                  contentsBuilder: (context, index) {
+                    final statusList = [
+                      'Arrived/Sorted',
+                      'On Delivery',
+                      'Delivered'
+                    ];
+                    final statusLabels = {
+                      'Arrived/Sorted': timestampSorted != null
+                          ? '• Sorted at: ${DateFormat.yMMMd().add_jm().format(timestampSorted)}'
+                          : '• Not sorted yet',
+                      'On Delivery': status == 'On Delivery'
+                          ? '• Parcel is on the way'
+                          : '• Not available',
+                      'Delivered': timestampDelivered != null
+                          ? '• Delivered at: ${DateFormat.yMMMd().add_jm().format(timestampDelivered)}'
+                          : '• Not delivered yet',
+                    };
+
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 12.0),
+                      child: Card(
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              ClipRRect(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  child: ImageNetwork(
-                                    image: imageUrl,
-                                    height: 350,
-                                    width: 300,
-                                    onLoading: const CircularProgressIndicator(
-                                      color: Colors.indigoAccent,
-                                    ),
-                                    onError: const Icon(
-                                      Icons.error,
-                                      color: Colors.red,
-                                    ),
-                                  )),
-                            ],
-                          )),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(30, 0, 0, 10),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                const Icon(
-                                  Icons.qr_code_scanner_rounded,
-                                  size: 15,
+                              Text(
+                                statusList[index],
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontSize: 16,
                                 ),
-                                Text(
-                                  '   Tracking ID 1 :  ${data['trackingId1']}',
+                              ),
+                              const SizedBox(height: 6),
+                              Text(
+                                statusLabels[statusList[index]] ?? '',
+                                style: TextStyle(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onSurfaceVariant,
                                 ),
-                              ],
-                            ),
-                            if (trackingId2.isNotEmpty)
-                              Row(
-                                children: [
-                                  const Icon(
-                                    Icons.qr_code_scanner_rounded,
-                                    size: 15,
-                                  ),
-                                  Text(
-                                    '   Tracking ID 2 :  ${data['trackingId2']}',
-                                  ),
-                                ],
                               ),
-                            if (trackingId3.isNotEmpty)
-                              Row(
-                                children: [
-                                  const Icon(
-                                    Icons.qr_code_scanner_rounded,
-                                    size: 15,
-                                  ),
-                                  Text(
-                                    '   Tracking ID 3 :  ${data['trackingId3']}',
-                                  ),
-                                ],
-                              ),
-                            if (trackingId4.isNotEmpty)
-                              Row(
-                                children: [
-                                  const Icon(
-                                    Icons.qr_code_scanner_rounded,
-                                    size: 15,
-                                  ),
-                                  Text(
-                                    '   Tracking ID 4 :  ${data['trackingId4']}',
-                                  ),
-                                ],
-                              ),
-                            if (remarks.isNotEmpty)
-                              Row(
-                                children: [
-                                  const Icon(
-                                    Icons.description_rounded,
-                                    size: 15,
-                                  ),
-                                  Text(
-                                    '    Remarks :  $remarks',
-                                  ),
-                                ],
-                              ),
-                            if (timestampSorted != null)
-                              Row(
-                                children: [
-                                  const Icon(
-                                    Icons.schedule_rounded,
-                                    size: 15,
-                                  ),
-                                  Text(
-                                    '   Sorted at :  ${DateFormat.yMMMd().add_jm().format(timestampSorted)}',
-                                  ),
-                                ],
-                              ),
-                            if (warehouseCode.isNotEmpty)
-                              Row(
-                                children: [
-                                  const Icon(
-                                    Icons.warehouse_rounded,
-                                    size: 15,
-                                  ),
-                                  Text(
-                                    '   Warehouse/Branch :  $warehouseCode',
-                                  ),
-                                ],
-                              ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      )
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 1, 20, 1),
-                  child: Divider(
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
-                Card(
-                  elevation: 0,
-                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            if (status == 3)
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(30, 5, 5, 1),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    if (timestampDelivered != null)
-                                      Row(
-                                        children: [
-                                          const Icon(
-                                            Icons.schedule_rounded,
-                                            size: 15,
-                                          ),
-                                          Text(
-                                            '   Delivered at :  ${DateFormat.yMMMd().add_jm().format(timestampDelivered)}',
-                                          ),
-                                        ],
-                                      ),
-                                    Row(
-                                      children: [
-                                        const Icon(
-                                          Icons.badge_rounded,
-                                          size: 15,
-                                        ),
-                                        Text(
-                                          '   Receiver :  ${data['receiverId']}',
-                                        ),
-                                      ],
-                                    ),
-                                    if (receiverRemarks.isNotEmpty)
-                                      Row(
-                                        children: [
-                                          const Icon(
-                                            Icons.description_rounded,
-                                            size: 15,
-                                          ),
-                                          Text(
-                                              '   Remarks :  ${data['receiverRemarks']}'),
-                                        ],
-                                      ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
+                              if (index == 0)
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 12),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      if (_hasError != true)
                                         ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(8.0),
-                                          child: Image.network(
-                                            receiverImageUrl,
-                                            width: 300.0,
-                                            height: 300.0,
-                                            fit: BoxFit.cover,
-                                            errorBuilder:
-                                                (context, error, stackTrace) {
-                                              String errorMessage;
-                                              if (error
-                                                  is NetworkImageLoadException) {
-                                                errorMessage =
-                                                    'Network error: $error';
-                                              } else {
-                                                errorMessage =
-                                                    'Failed to load image: $error';
-                                              }
-                                              return Column(
-                                                children: [
-                                                  const Icon(Icons
-                                                      .image_not_supported_outlined),
-                                                  Text(errorMessage),
-                                                ],
-                                              );
-                                            },
+                                          child: ImageNetwork(
+                                            image: imageUrl,
+                                            height: 250,
+                                            width: 250,
+                                            onLoading:
+                                                const CircularProgressIndicator(
+                                              year2023: false,
+                                            ),
+                                            onError: Builder(
+                                              builder: (context) {
+                                                WidgetsBinding.instance
+                                                    .addPostFrameCallback((_) {
+                                                  if (mounted) {
+                                                    setState(() {
+                                                      _hasError = true;
+                                                    });
+                                                  }
+                                                });
+                                                return const SizedBox.shrink();
+                                              },
+                                            ),
                                           ),
                                         ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                  ],
+                                      const SizedBox(height: 12),
+                                      SizedBox(
+                                        height: 55,
+                                        child: SfBarcodeGenerator(
+                                          value: '${data['trackingId1']}',
+                                          showValue: true,
+                                          barColor: Theme.of(context)
+                                              .colorScheme
+                                              .onSurface,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 12),
+                                      if (trackingId2.isNotEmpty)
+                                        Text('• Tracking ID 2: $trackingId2'),
+                                      if (trackingId3.isNotEmpty)
+                                        Text('• Tracking ID 3: $trackingId3'),
+                                      if (trackingId4.isNotEmpty)
+                                        Text('• Tracking ID 4: $trackingId4'),
+                                      if (warehouseCode.isNotEmpty)
+                                        Text('• Hub : $warehouseCode'),
+                                      if (remarks.isNotEmpty)
+                                        Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 12),
+                                            child: Card(
+                                              elevation: 0,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(8)),
+                                                  side: BorderSide(
+                                                      width: 1,
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .tertiaryContainer)),
+                                              child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(10),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Row(
+                                                        children: [
+                                                          Icon(
+                                                              Icons
+                                                                  .info_outline_rounded,
+                                                              size: 20,
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .colorScheme
+                                                                  .tertiary),
+                                                          SizedBox(
+                                                            width: 5,
+                                                          ),
+                                                          Text(
+                                                            "Remarks",
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .colorScheme
+                                                                    .tertiary),
+                                                          )
+                                                        ],
+                                                      ),
+                                                      SizedBox(height: 8),
+                                                      Text(
+                                                        remarks,
+                                                      ),
+                                                    ],
+                                                  )),
+                                            )),
+                                    ],
+                                  ),
                                 ),
-                              )
-                            else
-                              const Column(),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                      const SizedBox(
-                        height: 6,
-                      )
-                    ],
+                    );
+                  },
+                  indicatorBuilder: (context, index) {
+                    bool isActive = false;
+                    if (index == 0 && timestampSorted != null) isActive = true;
+                    if (index == 1 && status == '• On Delivery') {
+                      isActive = true;
+                    }
+                    if (index == 2 && timestampDelivered != null) {
+                      isActive = true;
+                    }
+
+                    return DotIndicator(
+                      size: 20,
+                      color: isActive
+                          ? Theme.of(context).colorScheme.primary
+                          : Theme.of(context).disabledColor,
+                    );
+                  },
+                  connectorBuilder: (context, index, _) => SolidLineConnector(
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
-              ],
+              ),
             );
           },
         );

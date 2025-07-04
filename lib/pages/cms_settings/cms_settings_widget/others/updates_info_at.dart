@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:url_launcher/url_launcher.dart';
+//import 'package:flutter_markdown/flutter_markdown.dart';
+//import 'package:url_launcher/url_launcher.dart';
 
 class UpdatesInfoAt extends StatefulWidget {
   const UpdatesInfoAt({super.key});
@@ -91,7 +91,11 @@ class _UpdatesInfoAtState extends State<UpdatesInfoAt> {
                               left: 5,
                               right: 5,
                             ),
-                            child: MarkdownBody(
+                            /** 
+                            child: 
+                            
+                          
+                            MarkdownBody(
                               onTapLink: (text, href, title) {
                                 if (href != null) {
                                   launchUrl(Uri.parse(href));
@@ -104,7 +108,7 @@ class _UpdatesInfoAtState extends State<UpdatesInfoAt> {
                               ),
                               softLineBreak:
                                   true, // Ensures soft line breaks are handled
-                            ),
+                            ),*/
                           ),
                         ],
                       ),

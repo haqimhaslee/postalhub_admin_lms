@@ -1,9 +1,11 @@
 // ignore_for_file: deprecated_member_use, unused_local_variable
 // ignore: unused_import
+import 'package:image_network/image_network.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:another_stepper/another_stepper.dart';
+import 'package:syncfusion_flutter_barcodes/barcodes.dart';
+import 'package:timelines_plus/timelines_plus.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class DetailPage extends StatelessWidget {
@@ -35,146 +37,7 @@ class DetailPage extends StatelessWidget {
         ? (data['timestamp_delivered'] as Timestamp).toDate()
         : null;
 
-    List<StepperData> stepperDataDelivered = [
-      StepperData(
-          title: StepperText(
-            "Ready to take",
-            textStyle: const TextStyle(
-              color: Colors.grey,
-            ),
-          ),
-          subtitle: StepperText("Arriving/Sorting"),
-          iconWidget: Container(
-            padding: const EdgeInsets.all(8),
-            decoration: const BoxDecoration(
-                color: Colors.green,
-                borderRadius: BorderRadius.all(Radius.circular(30))),
-            child: const Icon(Icons.inventory, color: Colors.white),
-          )),
-      StepperData(
-          title: StepperText(
-            "On delivery",
-            textStyle: const TextStyle(
-              color: Colors.grey,
-            ),
-          ),
-          subtitle: StepperText("On delivery"),
-          iconWidget: Container(
-            padding: const EdgeInsets.all(8),
-            decoration: const BoxDecoration(
-                color: Colors.green,
-                borderRadius: BorderRadius.all(Radius.circular(30))),
-            child: const Icon(Icons.delivery_dining, color: Colors.white),
-          )),
-      StepperData(
-          title: StepperText("Delivered",
-              textStyle: const TextStyle(
-                color: Colors.grey,
-              )),
-          subtitle: StepperText("Delivery"),
-          iconWidget: Container(
-            padding: const EdgeInsets.all(8),
-            decoration: const BoxDecoration(
-                color: Colors.green,
-                borderRadius: BorderRadius.all(Radius.circular(30))),
-            child: const Icon(Icons.check_rounded, color: Colors.white),
-          ))
-    ];
-
-    List<StepperData> stepperDataSorted = [
-      StepperData(
-          title: StepperText(
-            "Ready to take",
-            textStyle: const TextStyle(
-              color: Colors.grey,
-            ),
-          ),
-          subtitle: StepperText("Arriving/Sorting"),
-          iconWidget: Container(
-            padding: const EdgeInsets.all(8),
-            decoration: const BoxDecoration(
-                color: Colors.green,
-                borderRadius: BorderRadius.all(Radius.circular(30))),
-            child: const Icon(Icons.inventory, color: Colors.white),
-          )),
-      StepperData(
-          title: StepperText(
-            "On delivery",
-            textStyle: const TextStyle(
-              color: Colors.grey,
-            ),
-          ),
-          subtitle: StepperText("On delivery"),
-          iconWidget: Container(
-            padding: const EdgeInsets.all(8),
-            decoration: const BoxDecoration(
-                color: Colors.grey,
-                borderRadius: BorderRadius.all(Radius.circular(30))),
-            child: const Icon(Icons.delivery_dining, color: Colors.white),
-          )),
-      StepperData(
-          title: StepperText("Delivered",
-              textStyle: const TextStyle(
-                color: Colors.grey,
-              )),
-          subtitle: StepperText("Delivery"),
-          iconWidget: Container(
-            padding: const EdgeInsets.all(8),
-            decoration: const BoxDecoration(
-                color: Colors.grey,
-                borderRadius: BorderRadius.all(Radius.circular(30))),
-            child: const Icon(Icons.check_rounded, color: Colors.white),
-          ))
-    ];
-
-    List<StepperData> stepperDataOnDelivery = [
-      StepperData(
-          title: StepperText(
-            "Ready to take",
-            textStyle: const TextStyle(
-              color: Colors.grey,
-            ),
-          ),
-          subtitle: StepperText("Arriving/Sorting"),
-          iconWidget: Container(
-            padding: const EdgeInsets.all(8),
-            decoration: const BoxDecoration(
-                color: Colors.green,
-                borderRadius: BorderRadius.all(Radius.circular(30))),
-            child: const Icon(Icons.inventory, color: Colors.white),
-          )),
-      StepperData(
-          title: StepperText(
-            "On delivery",
-            textStyle: const TextStyle(
-              color: Colors.grey,
-            ),
-          ),
-          subtitle: StepperText("On delivery"),
-          iconWidget: Container(
-            padding: const EdgeInsets.all(8),
-            decoration: const BoxDecoration(
-                color: Colors.green,
-                borderRadius: BorderRadius.all(Radius.circular(30))),
-            child: const Icon(Icons.delivery_dining, color: Colors.white),
-          )),
-      StepperData(
-          title: StepperText("Not delivered",
-              textStyle: const TextStyle(
-                color: Colors.grey,
-              )),
-          subtitle: StepperText("Delivery"),
-          iconWidget: Container(
-            padding: const EdgeInsets.all(8),
-            decoration: const BoxDecoration(
-                color: Colors.grey,
-                borderRadius: BorderRadius.all(Radius.circular(30))),
-            child: const Icon(Icons.check_rounded, color: Colors.white),
-          ))
-    ];
-
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
       appBar: AppBar(
         title: Text('$trackingID1'),
       ),
@@ -194,6 +57,12 @@ class DetailPage extends StatelessWidget {
                         child: const Text("Cancel"),
                       ),
                       TextButton(
+                        style: TextButton.styleFrom(
+                          backgroundColor:
+                              Theme.of(context).colorScheme.errorContainer,
+                          foregroundColor:
+                              Theme.of(context).colorScheme.onErrorContainer,
+                        ),
                         onPressed: () => Navigator.of(context).pop(true),
                         child: const Text("Delete"),
                       ),
@@ -239,156 +108,183 @@ class DetailPage extends StatelessWidget {
         },
         child: const Icon(Icons.delete),
       ),
-      body: ListView(
-        children: [
-          const SizedBox(
-            height: 30,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+        child: FixedTimeline.tileBuilder(
+          theme: TimelineThemeData(
+            nodePosition: 0,
+            indicatorPosition: 0.3,
+            color: Colors.grey,
           ),
-          Column(
-            children: [
-              switch (status) {
-                1 => AnotherStepper(
-                    stepperList: stepperDataSorted,
-                    stepperDirection: Axis.horizontal,
-                    iconWidth: 40,
-                    iconHeight: 40,
-                    activeBarColor: Colors.green,
-                    inActiveBarColor: Colors.grey,
-                    inverted: true,
-                    verticalGap: 20,
-                    activeIndex: 0,
-                    barThickness: 8,
-                  ),
-                2 => AnotherStepper(
-                    stepperList: stepperDataOnDelivery,
-                    stepperDirection: Axis.horizontal,
-                    iconWidth: 40,
-                    iconHeight: 40,
-                    activeBarColor: Colors.green,
-                    inActiveBarColor: Colors.grey,
-                    inverted: true,
-                    verticalGap: 20,
-                    activeIndex: 1,
-                    barThickness: 8,
-                  ),
-                3 => AnotherStepper(
-                    stepperList: stepperDataDelivered,
-                    stepperDirection: Axis.horizontal,
-                    iconWidth: 40,
-                    iconHeight: 40,
-                    activeBarColor: Colors.green,
-                    inActiveBarColor: Colors.grey,
-                    inverted: true,
-                    verticalGap: 20,
-                    activeIndex: 2,
-                    barThickness: 8,
-                  ),
-                _ => Container(), // Handle default case if needed
-              },
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 10,
-                ),
-                Card(
-                  elevation: 0,
-                  color: Theme.of(context).colorScheme.surfaceVariant,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Padding(
-                          padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(8.0),
-                                child: Image.network(
-                                  imageUrl,
-                                  width: 300.0,
-                                  height: 300.0,
-                                  fit: BoxFit.cover,
-                                  errorBuilder: (context, error, stackTrace) {
-                                    String errorMessage;
-                                    if (error is NetworkImageLoadException) {
-                                      errorMessage = 'Network error: $error';
-                                    } else {
-                                      errorMessage =
-                                          'Failed to load image: $error';
-                                    }
-                                    return Column(
-                                      children: [
-                                        const Icon(
-                                            Icons.image_not_supported_outlined),
-                                        Text(errorMessage),
-                                      ],
-                                    );
-                                  },
-                                ),
-                              ),
-                            ],
-                          )),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(30, 0, 0, 10),
+          builder: TimelineTileBuilder.connected(
+            connectionDirection: ConnectionDirection.before,
+            itemCount: 3,
+            contentsBuilder: (context, index) {
+              final statusList = ['Arrived/Sorted', 'On Delivery', 'Delivered'];
+              final statusLabels = {
+                'Arrived/Sorted': timestampArrived != null
+                    ? '• Sorted at: ${DateFormat.yMMMd().add_jm().format(timestampArrived)}'
+                    : '• Not sorted yet',
+                'On Delivery': status == 'On Delivery'
+                    ? '• Parcel is on the way'
+                    : '• Not available',
+                'Delivered': timestampDelivered != null
+                    ? '• Delivered at: ${DateFormat.yMMMd().add_jm().format(timestampDelivered)}'
+                    : '• Not delivered yet',
+              };
+
+              return Padding(
+                  padding: const EdgeInsets.only(left: 12.0, bottom: 10),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(12.0),
+                    child: Container(
+                      color: Theme.of(context).colorScheme.surfaceVariant,
+                      child: Padding(
+                        padding: const EdgeInsets.all(12),
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Tracking ID 1 : ${data['trackingId1']}',
+                              statusList[index],
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).colorScheme.primary,
+                                fontSize: 16,
+                              ),
                             ),
-                            if (trackingID2.isNotEmpty)
-                              Text(
-                                'Tracking ID 2 : $trackingID2',
+                            const SizedBox(height: 6),
+                            Text(
+                              statusLabels[statusList[index]] ?? '',
+                              style: TextStyle(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSurfaceVariant,
                               ),
-                            if (trackingID3.isNotEmpty)
-                              Text(
-                                'Tracking ID 3 : $trackingID3',
+                            ),
+                            if (index == 0)
+                              Padding(
+                                padding: const EdgeInsets.only(top: 12),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      child: ImageNetwork(
+                                        image: imageUrl,
+                                        height: 250,
+                                        width: 250,
+                                        onLoading:
+                                            const CircularProgressIndicator(
+                                          year2023: false,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 12),
+                                    SizedBox(
+                                      height: 55,
+                                      child: SfBarcodeGenerator(
+                                        value: '${data['trackingId1']}',
+                                        showValue: true,
+                                        barColor: Theme.of(context)
+                                            .colorScheme
+                                            .onSurface,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 12),
+                                    if (trackingID2.isNotEmpty)
+                                      Text('• Tracking ID 2: $trackingID2'),
+                                    if (trackingID3.isNotEmpty)
+                                      Text('• Tracking ID 3: $trackingID3'),
+                                    if (trackingID4.isNotEmpty)
+                                      Text('• Tracking ID 4: $trackingID4'),
+                                    if (warehouse.isNotEmpty)
+                                      Text('• Hub : $warehouse'),
+                                    if (remarks.isNotEmpty)
+                                      Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 12),
+                                          child: Card(
+                                            elevation: 0,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(8)),
+                                                side: BorderSide(
+                                                    width: 1,
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .tertiaryContainer)),
+                                            child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(10),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        Icon(
+                                                            Icons
+                                                                .info_outline_rounded,
+                                                            size: 20,
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .colorScheme
+                                                                .tertiary),
+                                                        SizedBox(
+                                                          width: 5,
+                                                        ),
+                                                        Text(
+                                                          "Remarks",
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .colorScheme
+                                                                  .tertiary),
+                                                        )
+                                                      ],
+                                                    ),
+                                                    SizedBox(height: 8),
+                                                    Text(
+                                                      remarks,
+                                                    ),
+                                                  ],
+                                                )),
+                                          )),
+                                  ],
+                                ),
                               ),
-                            if (trackingID4.isNotEmpty)
-                              Text(
-                                'Tracking ID 4 : $trackingID4',
-                              ),
-                            if (ownerId.isNotEmpty)
-                              Text(
-                                'Owner : $ownerId',
-                              ),
-                            if (remarks.isNotEmpty)
-                              Text(
-                                'Remarks/Notes : $remarks',
-                              ),
-                            Text('Warehouse : $warehouse'),
-                            Text('Date/Time arrived : $timestampArrived')
                           ],
                         ),
                       ),
-                      const SizedBox(
-                        height: 10,
-                      )
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 1, 20, 1),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-              ],
+                    ),
+                  ));
+            },
+            indicatorBuilder: (context, index) {
+              bool isActive = false;
+              if (index == 0 && timestampArrived != null) isActive = true;
+              if (index == 1 && status == '• On Delivery') {
+                isActive = true;
+              }
+              if (index == 2 && timestampDelivered != null) {
+                isActive = true;
+              }
+
+              return DotIndicator(
+                size: 20,
+                color: isActive
+                    ? Theme.of(context).colorScheme.primary
+                    : Theme.of(context).disabledColor,
+              );
+            },
+            connectorBuilder: (context, index, _) => SolidLineConnector(
+              color: Theme.of(context).colorScheme.primary,
             ),
           ),
-        ],
+        ),
       ),
     );
   }

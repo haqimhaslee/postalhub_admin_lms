@@ -57,15 +57,6 @@ class AnalyticsParcelState extends State<AnalyticsParcel> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         const SizedBox(height: 20),
-        Text(
-          "All parcels",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 20,
-            //fontWeight: FontWeight.w900,
-            color: Theme.of(context).colorScheme.onSurface,
-          ),
-        ),
         const SizedBox(height: 5),
         Wrap(
           alignment: WrapAlignment.center,
@@ -92,9 +83,10 @@ class AnalyticsParcelState extends State<AnalyticsParcel> {
         width: 150,
         height: 100,
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(25),
           child: Material(
-            color: Theme.of(context).colorScheme.surfaceContainerHigh,
+            // ignore: deprecated_member_use
+            color: Theme.of(context).colorScheme.surfaceVariant,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[

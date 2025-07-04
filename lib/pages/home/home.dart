@@ -16,20 +16,16 @@ class _HomeState extends State<Home> {
     // ... other widget code
 
     return Padding(
-        padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+        padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
         child: ListView(
           children: [
-            Column(
-              children: [
-                HomeAnalytics(),
-                SizedBox(
-                  height: 20,
-                ),
-                HomeControlPanel(),
-                SizedBox(
-                  height: 20,
-                ),
-              ],
+            HomeAnalytics(),
+            SizedBox(
+              height: 20,
+            ),
+            HomeControlPanel(),
+            SizedBox(
+              height: 20,
             ),
           ],
         ));

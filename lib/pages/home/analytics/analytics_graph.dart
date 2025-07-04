@@ -1,6 +1,6 @@
 // ignore_for_file: deprecated_member_use
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fl_chart/fl_chart.dart';
 
 class AnalyticsGraph extends StatefulWidget {
   const AnalyticsGraph({super.key});
@@ -10,122 +10,126 @@ class AnalyticsGraph extends StatefulWidget {
 }
 
 class AnalyticsGraphState extends State<AnalyticsGraph> {
-  int totalParcels = 0;
-  int totalParcelsArrived = 0;
-  int totalParcelsOnDelivery = 0;
-  int totalParcelsDelivered = 0;
-  int totalUserClient = 0;
-  int totalUserAdmin = 0;
+  final List<String> weekDays = [
+    'Mon',
+    'Tue',
+    'Wed',
+    'Thu',
+    'Fri',
+    'Sat',
+    'Sun'
+  ];
+
+  // Mock data: keyIn and keyOut for each day of the week
+  final List<int> keyInData = [250, 255, 240, 280, 275, 240, 235];
+  final List<int> keyOutData = [205, 253, 250, 200, 210, 12, 50];
+  final List<int> onDeliveryData = [205, 253, 250, 200, 210, 100, 50];
 
   @override
-  void initState() {
-    super.initState();
-    _fetchData();
-  }
-
-  Future<void> _fetchData() async {
-    try {
-      // Fetch each collection separately
-      final parcelInventorySnapshot =
-          await FirebaseFirestore.instance.collection('parcelInventory').get();
-      final clientUserSnapshot =
-          await FirebaseFirestore.instance.collection('client_user').get();
-      final adminUserSnapshot =
-          await FirebaseFirestore.instance.collection('admin_user').get();
-
-      setState(() {
-        totalParcels = parcelInventorySnapshot.size;
-        totalUserClient = clientUserSnapshot.size;
-        totalUserAdmin = adminUserSnapshot.size;
-
-        // Accessing 'status' as an integer
-        totalParcelsArrived = parcelInventorySnapshot.docs
-            .where((doc) => doc.data()['status'] == 1)
-            .length;
-        totalParcelsOnDelivery = parcelInventorySnapshot.docs
-            .where((doc) => doc.data()['status'] == 2)
-            .length;
-        totalParcelsDelivered = parcelInventorySnapshot.docs
-            .where((doc) => doc.data()['status'] == 3)
-            .length;
-      });
-    } catch (e) {
-      print("Error fetching data: $e");
-    }
-  }
-
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        const SizedBox(height: 20),
-        Text(
-          "Analytics",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w900,
-            color: Theme.of(context).colorScheme.onSurface,
-          ),
-        ),
-        const SizedBox(height: 20),
-        Wrap(
-          alignment: WrapAlignment.center,
-          children: [
-            _buildAnalyticsCard(
-                context, totalParcels, "Total parcel (Inventory)"),
-            _buildAnalyticsCard(
-                context, totalParcelsArrived, "Arrived - Sorted"),
-            _buildAnalyticsCard(context, totalParcelsOnDelivery, "On delivery"),
-            _buildAnalyticsCard(context, totalParcelsDelivered, "Delivered"),
-            _buildAnalyticsCard(context, totalUserClient, "User (Client)"),
-            _buildAnalyticsCard(context, totalUserAdmin, "User (Admin)"),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _buildAnalyticsCard(BuildContext context, int value, String label) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-      child: SizedBox(
-        width: 150,
-        height: 100,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(15),
-          child: Material(
+    return ClipRRect(
+        borderRadius: BorderRadius.circular(25),
+        child: Material(
             color: Theme.of(context).colorScheme.surfaceVariant,
-            child: InkWell(
-              onTap: () {},
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  // Removed fixed width constraint
-                  Text(
-                    "$value",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.w900,
-                      color: Theme.of(context).colorScheme.onSurface,
+            child: Column(
+              children: [
+                const SizedBox(height: 10),
+                const Text(
+                  'Weekly Stat (BETA)',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 10),
+                AspectRatio(
+                  aspectRatio: 16 / 4.5,
+                  child: Padding(
+                    padding: EdgeInsetsGeometry.fromLTRB(5, 0, 5, 0),
+                    child: BarChart(
+                      BarChartData(
+                        titlesData: FlTitlesData(
+                          bottomTitles: AxisTitles(
+                            sideTitles: SideTitles(
+                              showTitles: true,
+                              getTitlesWidget: (value, meta) {
+                                final index = value.toInt();
+                                if (index < 0 || index >= weekDays.length)
+                                  return Container();
+                                return Padding(
+                                  padding: const EdgeInsets.only(top: 8.0),
+                                  child: Text(weekDays[index]),
+                                );
+                              },
+                            ),
+                          ),
+                          leftTitles: AxisTitles(
+                            sideTitles: SideTitles(
+                              showTitles: true,
+                              reservedSize:
+                                  40, // Reserve space to prevent overflow
+                              getTitlesWidget: (value, meta) {
+                                return Text(
+                                  value.toInt().toString(),
+                                  style: TextStyle(fontSize: 12),
+                                  overflow:
+                                      TextOverflow.ellipsis, // Prevent overflow
+                                );
+                              },
+                            ),
+                          ),
+                          rightTitles: AxisTitles(
+                            sideTitles: SideTitles(showTitles: false),
+                          ),
+                          topTitles: AxisTitles(
+                            sideTitles: SideTitles(showTitles: false),
+                          ),
+                        ),
+                        barGroups: List.generate(7, (index) {
+                          return BarChartGroupData(
+                            x: index,
+                            barRods: [
+                              BarChartRodData(
+                                toY: keyInData[index].toDouble(),
+                                color: Colors.blue,
+                                width: 8,
+                              ),
+                              BarChartRodData(
+                                toY: keyOutData[index].toDouble(),
+                                color: Colors.orange,
+                                width: 8,
+                              ),
+                              BarChartRodData(
+                                toY: onDeliveryData[index].toDouble(),
+                                color: Colors.green,
+                                width: 8,
+                              ),
+                            ],
+                            // barsSpace: 4,
+                          );
+                        }),
+                        gridData: FlGridData(show: true),
+                        borderData: FlBorderData(show: false),
+                      ),
                     ),
                   ),
-                  Text(
-                    label,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).colorScheme.onSurface,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(Icons.square, color: Colors.blue, size: 16),
+                    SizedBox(width: 4),
+                    Text('Key In'),
+                    SizedBox(width: 16),
+                    Icon(Icons.circle, color: Colors.orange, size: 16),
+                    SizedBox(width: 4),
+                    Text('Key Out'),
+                    SizedBox(width: 16),
+                    Icon(Icons.square, color: Colors.green, size: 16),
+                    SizedBox(width: 4),
+                    Text('On Delivery'),
+                  ],
+                ),
+                const SizedBox(height: 20),
+              ],
+            )));
   }
 }

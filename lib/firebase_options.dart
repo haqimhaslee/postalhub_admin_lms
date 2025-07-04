@@ -73,6 +73,9 @@ class DefaultFirebaseOptions {
     projectId: 'postalhub',
     databaseURL: 'https://postalhub-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'postalhub.appspot.com',
+    androidClientId: '955163893298-0r6imit2gtb22s2ebueomtvbh6agph35.apps.googleusercontent.com',
+    iosClientId: '955163893298-ici6rkep0om2qrrt8p2aaad2gj9ic2t8.apps.googleusercontent.com',
     iosBundleId: 'com.example.postalhubAdminCms',
   );
+
 }

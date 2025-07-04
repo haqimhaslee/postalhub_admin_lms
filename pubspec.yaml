@@ -1,9 +1,9 @@
 name: postalhub_admin_cms
-description: "Postalhub CMS"
+description: "Postal Hub LMS - Admin Control Panel for managing the parcel, including user management, and analytics."
 
 publish_to: 'none' 
 
-version: 25.4.1605+8
+version: 25.7.0301+13
 
 environment:
   sdk: '>=3.4.0 <4.0.0'
@@ -26,7 +26,6 @@ dependencies:
   visibility_detector: ^0.4.0+2
   shimmer: ^3.0.0
   file_picker: ^10.1.2
-  another_stepper: ^1.2.2
   image_picker_for_web: ^3.0.5
   carousel_slider: ^5.0.0
   cached_network_image: ^3.4.0
@@ -38,13 +37,14 @@ dependencies:
   url_launcher: ^6.3.1
   shared_preferences: ^2.3.3
   camera: ^0.11.0+2
-  flutter_markdown: ^0.7.4+3
   flutter_image_compress: ^2.3.0
   firebase_app_check: ^0.3.2+5
-  
-  
-  
-  ##camera: ^0.11.0+2
+  firebase_crashlytics: ^4.3.7
+  firebase_analytics: ^11.5.0
+  syncfusion_flutter_barcodes: ^30.1.38
+  timelines_plus: ^1.0.7
+  fl_chart: ^1.0.0
+  google_fonts: ^6.2.1
   
   
 
@@ -52,7 +52,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
 
 flutter:
   uses-material-design: true

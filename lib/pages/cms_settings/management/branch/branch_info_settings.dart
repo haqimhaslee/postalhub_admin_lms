@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -185,100 +187,140 @@ class _BranchInfoSettingsState extends State<BranchInfoSettings> {
         title: Text("Branch Info Settings"),
       ),
       body: _isLoading // Conditionally render based on loading state
-          ? const Center(child: CircularProgressIndicator())
+          ? const Center(
+              child: CircularProgressIndicator(
+              year2023: false,
+            ))
           : Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 15, bottom: 0, top: 20),
-                  child: Text(
-                    "Branch",
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                  ),
-                ),
-                ListTile(
-                  title: Text(
-                    _campusName ?? "N/A",
-                  ),
-                  leading: const Icon(Icons.domain_rounded),
+                  padding: const EdgeInsets.only(top: 15),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 15, bottom: 0, top: 20),
-                  child: Text(
-                    "Status",
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                  ),
-                ),
-                ListTile(
-                  title: Text(
-                    _openStatus == true ? "Open" : "Closed",
-                    style: TextStyle(
-                        color: _openStatus == true
-                            ? Theme.of(context).colorScheme.primary
-                            : Theme.of(context).colorScheme.error),
-                  ),
-                  subtitle: Text("Click to change status"),
-                  trailing: Switch(
-                    value: _openStatus ?? false,
-                    onChanged: (bool value) {
-                      _updateOpenStatus(!(_openStatus ?? false));
-                    },
-                  ),
+                    padding:
+                        const EdgeInsets.only(left: 15, bottom: 2, right: 15),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(25),
+                        topRight: Radius.circular(25),
+                        bottomLeft: Radius.circular(25),
+                        bottomRight: Radius.circular(25),
+                      ),
+                      child: Material(
+                        color: Theme.of(context).colorScheme.surfaceVariant,
+                        child: InkWell(
+                            onTap: () {},
+                            child: Padding(
+                              padding: const EdgeInsets.all(6),
+                              child: ListTile(
+                                title: Text(
+                                  _campusName ?? "N/A",
+                                ),
+                                leading: const Icon(
+                                  Icons.domain_rounded,
+                                  size: 25,
+                                ),
+                                subtitle: Text(
+                                  _openStatus == true ? "Open" : "Closed",
+                                  style: TextStyle(
+                                      color: _openStatus == true
+                                          ? Theme.of(context)
+                                              .colorScheme
+                                              .primary
+                                          : Theme.of(context)
+                                              .colorScheme
+                                              .error),
+                                ),
+                                trailing: Switch(
+                                  value: _openStatus ?? false,
+                                  onChanged: (bool value) {
+                                    _updateOpenStatus(!(_openStatus ?? false));
+                                  },
+                                ),
+                              ),
+                            )),
+                      ),
+                    )),
+                Padding(
+                  padding: const EdgeInsets.only(top: 15),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 15, bottom: 0, top: 20),
-                  child: Text(
-                    "Operating Time",
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                  ),
-                ),
-                ListTile(
-                  title: Text(
-                    "Opening Time : ${_openTime ?? "--"}",
-                  ),
-                  subtitle: Text("Click to change opening time"),
-                  leading: const Icon(Icons.schedule_rounded),
-                  onTap: () async {
-                    final TimeOfDay? newOpenTime = await showTimePicker(
-                      helpText: "Select new opening time",
-                      context: context,
-                      initialTime: TimeOfDay.now(),
-                    );
+                    padding:
+                        const EdgeInsets.only(left: 15, bottom: 2, right: 15),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(25),
+                        topRight: Radius.circular(25),
+                      ),
+                      child: Material(
+                        color: Theme.of(context).colorScheme.surfaceVariant,
+                        child: InkWell(
+                            onTap: () async {
+                              final TimeOfDay? newOpenTime =
+                                  await showTimePicker(
+                                helpText: "Select new opening time",
+                                context: context,
+                                initialTime: TimeOfDay.now(),
+                              );
 
-                    if (newOpenTime != null) {
-                      _updateOpenOperatingTimes(
-                        newOpenTime,
-                      );
-                    }
-                  },
-                ),
-                ListTile(
-                  title: Text(
-                    "Closing Time : ${_closingTime ?? "--"}",
-                  ),
-                  subtitle: Text("Click to change closing time"),
-                  leading: const Icon(Icons.schedule_rounded),
-                  onTap: () async {
-                    final TimeOfDay? newClosingTime = await showTimePicker(
-                      helpText: "Select new closing time",
-                      context: context,
-                      initialTime: TimeOfDay.now(),
-                    );
+                              if (newOpenTime != null) {
+                                _updateOpenOperatingTimes(
+                                  newOpenTime,
+                                );
+                              }
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(6),
+                              child: ListTile(
+                                title: Text(
+                                  "Opening Time : ${_openTime ?? "--"}",
+                                ),
+                                subtitle: Text("Click to change opening time"),
+                                leading: const Icon(Icons.schedule_rounded),
+                                trailing:
+                                    const Icon(Icons.chevron_right_rounded),
+                              ),
+                            )),
+                      ),
+                    )),
+                Padding(
+                    padding:
+                        const EdgeInsets.only(left: 15, bottom: 2, right: 15),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.only(
+                        bottomRight: Radius.circular(25),
+                        bottomLeft: Radius.circular(25),
+                      ),
+                      child: Material(
+                        color: Theme.of(context).colorScheme.surfaceVariant,
+                        child: InkWell(
+                            onTap: () async {
+                              final TimeOfDay? newClosingTime =
+                                  await showTimePicker(
+                                helpText: "Select new closing time",
+                                context: context,
+                                initialTime: TimeOfDay.now(),
+                              );
 
-                    if (newClosingTime != null) {
-                      _updateCloseOperatingTimes(newClosingTime);
-                    }
-                  },
-                ),
+                              if (newClosingTime != null) {
+                                _updateCloseOperatingTimes(newClosingTime);
+                              }
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(6),
+                              child: ListTile(
+                                title: Text(
+                                  "Closing Time : ${_closingTime ?? "--"}",
+                                ),
+                                subtitle: Text("Click to change closing time"),
+                                leading: const Icon(Icons.schedule_rounded),
+                                trailing:
+                                    const Icon(Icons.chevron_right_rounded),
+                              ),
+                            )),
+                      ),
+                    )),
               ],
             ),
     );
