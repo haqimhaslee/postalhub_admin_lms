@@ -36,7 +36,7 @@ class HomeControlPanelState extends State<HomeControlPanel> {
                 width: 150,
                 height: 100,
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(15),
+                  borderRadius: BorderRadius.circular(25),
                   child: Material(
                     color: Theme.of(context).colorScheme.surfaceVariant,
                     child: InkWell(
@@ -76,7 +76,7 @@ class HomeControlPanelState extends State<HomeControlPanel> {
                 width: 150,
                 height: 100,
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(15),
+                  borderRadius: BorderRadius.circular(25),
                   child: Material(
                     color: Theme.of(context).colorScheme.surfaceVariant,
                     child: InkWell(
@@ -117,7 +117,7 @@ class HomeControlPanelState extends State<HomeControlPanel> {
                 width: 150,
                 height: 100,
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(15),
+                  borderRadius: BorderRadius.circular(25),
                   child: Material(
                     color: Theme.of(context).colorScheme.surfaceVariant,
                     child: InkWell(

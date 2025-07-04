@@ -210,36 +210,31 @@ class _BranchInfoSettingsState extends State<BranchInfoSettings> {
                       child: Material(
                         color: Theme.of(context).colorScheme.surfaceVariant,
                         child: InkWell(
-                            onTap: () {},
                             child: Padding(
-                              padding: const EdgeInsets.all(6),
-                              child: ListTile(
-                                title: Text(
-                                  _campusName ?? "N/A",
-                                ),
-                                leading: const Icon(
-                                  Icons.domain_rounded,
-                                  size: 25,
-                                ),
-                                subtitle: Text(
-                                  _openStatus == true ? "Open" : "Closed",
-                                  style: TextStyle(
-                                      color: _openStatus == true
-                                          ? Theme.of(context)
-                                              .colorScheme
-                                              .primary
-                                          : Theme.of(context)
-                                              .colorScheme
-                                              .error),
-                                ),
-                                trailing: Switch(
-                                  value: _openStatus ?? false,
-                                  onChanged: (bool value) {
-                                    _updateOpenStatus(!(_openStatus ?? false));
-                                  },
-                                ),
-                              ),
-                            )),
+                          padding: const EdgeInsets.all(6),
+                          child: ListTile(
+                            title: Text(
+                              _campusName ?? "N/A",
+                            ),
+                            leading: const Icon(
+                              Icons.domain_rounded,
+                              size: 25,
+                            ),
+                            subtitle: Text(
+                              _openStatus == true ? "Open" : "Closed",
+                              style: TextStyle(
+                                  color: _openStatus == true
+                                      ? Theme.of(context).colorScheme.primary
+                                      : Theme.of(context).colorScheme.error),
+                            ),
+                            trailing: Switch(
+                              value: _openStatus ?? false,
+                              onChanged: (bool value) {
+                                _updateOpenStatus(!(_openStatus ?? false));
+                              },
+                            ),
+                          ),
+                        )),
                       ),
                     )),
                 Padding(
